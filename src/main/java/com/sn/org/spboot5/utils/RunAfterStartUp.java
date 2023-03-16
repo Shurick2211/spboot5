@@ -1,5 +1,6 @@
 package com.sn.org.spboot5.utils;
 
+import com.sn.org.spboot5.services.CursFromApi;
 import java.util.Random;
 import lombok.Getter;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Getter
-public class RunAfterStartUp {
+public class RunAfterStartUp implements CursFromApi {
 
   private double curs = 21000;
   @EventListener(ApplicationReadyEvent.class)
