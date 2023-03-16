@@ -1,31 +1,37 @@
 package com.sn.org.spboot5.services;
 
+import com.sn.org.spboot5.models.Coin;
 import com.sn.org.spboot5.utils.RunAfterStartUp;
 import com.sn.org.spboot5.utils.Trend;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 public class CurseService {
-  private Trend trend;
-  private double lastCurs;
-  private double currentCurs;
+  private final Coin coin;
   private final RunAfterStartUp curs;
+  private final CheckCursService checkCursService;
 
-  public CurseService(RunAfterStartUp curs) {
-    this.trend = Trend.UP;
+  @Value("${range.curs.for.buy}")
+  private double rangeCursForBuy;
+
+  public CurseService(RunAfterStartUp curs, CheckCursService checkCursService) {
     this.curs = curs;
-    this.lastCurs = curs.getCurs();
+    this.checkCursService = checkCursService;
+    double startCurs = curs.getCurs();
+    this.coin = new Coin(startCurs,startCurs,Trend.UP);
   }
 
-  @Scheduled(fixedDelay = 2000)
+  @Scheduled(fixedDelayString = "${freq.req.curs}")
   public void seenCurs(){
-    currentCurs = curs.getCurs();
-    trend = currentCurs >= lastCurs ? Trend.UP: Trend.DOWN;
-    log.info("Trend = {}, BTC = {}", trend, currentCurs);
-    lastCurs = currentCurs;
+    coin.setCurrentCurs(curs.getCurs());
+    coin.setTrend(coin.getCurrentCurs() >= coin.getLastCurs() ? Trend.UP: Trend.DOWN);
+    checkCursService.checkCurs(coin);
+    //log.info("Trend = {}, BTC = {}", coin.getTrend(), coin.getCurrentCurs());
+    coin.setLastCurs(coin.getCurrentCurs());
   }
 
 }
