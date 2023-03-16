@@ -4,7 +4,6 @@ import com.sn.org.spboot5.models.Coin;
 import com.sn.org.spboot5.utils.RunAfterStartUp;
 import com.sn.org.spboot5.utils.Trend;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,6 @@ public class CurseService {
   private final CursFromApi cursFromApi;
   private final CheckCursService checkCursService;
 
-  @Value("${range.curs.for.buy}")
-  private double rangeCursForBuy;
 
   public CurseService(RunAfterStartUp cursFromApi, CheckCursService checkCursService) {
     this.cursFromApi = cursFromApi;
