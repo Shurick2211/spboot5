@@ -12,8 +12,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MyCurrentAccount {
+public class PlayAccount {
   private double summ;
   private AccountState accState;
+  private double rangeCursForBuying;
 
 }

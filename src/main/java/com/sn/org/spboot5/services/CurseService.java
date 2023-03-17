@@ -27,7 +27,6 @@ public class CurseService {
     coin.setCurrentCurs(cursFromApi.getCurs());
     coin.setTrend(coin.getCurrentCurs() >= coin.getLastCurs() ? Trend.UP: Trend.DOWN);
     checkCursService.checkCurs(coin);
-    //log.info("Trend = {}, BTC = {}", coin.getTrend(), coin.getCurrentCurs());
     coin.setLastCurs(coin.getCurrentCurs());
   }
 
