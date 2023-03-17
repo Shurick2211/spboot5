@@ -16,4 +16,5 @@ public class Coin {
   private double lastCurs;
   private double currentCurs;
   private Trend trend;
+  private boolean isChangedTrend;
 }

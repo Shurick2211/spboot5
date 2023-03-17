@@ -42,7 +42,7 @@ public class RunAfterStartUp implements CursFromApi {
     }).start();
 
     checkCursService.subscribeToCheck(new Person(summ,
-        new PlayAccount(summ, AccountState.FIAT, rangeCursForBuy)));
+        new PlayAccount(summ, 0, AccountState.FIAT, rangeCursForBuy), false));
 
   }
 }

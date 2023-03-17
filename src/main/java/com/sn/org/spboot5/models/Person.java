@@ -14,5 +14,5 @@ import lombok.ToString;
 public class Person {
   private double startSummFiat;
   private PlayAccount playAccount;
-
+  boolean isPlay;
 }

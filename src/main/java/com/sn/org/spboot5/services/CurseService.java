@@ -14,20 +14,25 @@ public class CurseService {
   private final CursFromApi cursFromApi;
   private final CheckCursService checkCursService;
 
+  private Trend lastTrend = Trend.UP;
+
 
   public CurseService(RunAfterStartUp cursFromApi, CheckCursService checkCursService) {
     this.cursFromApi = cursFromApi;
     this.checkCursService = checkCursService;
     double startCurs = cursFromApi.getCurs();
-    this.coin = new Coin(startCurs,startCurs,Trend.UP);
+    this.coin = new Coin(startCurs, startCurs, lastTrend, false);
   }
 
   @Scheduled(fixedDelayString = "${freq.req.curs}")
   public void seenCurs(){
     coin.setCurrentCurs(cursFromApi.getCurs());
     coin.setTrend(coin.getCurrentCurs() >= coin.getLastCurs() ? Trend.UP: Trend.DOWN);
+    coin.setChangedTrend(coin.getTrend() != lastTrend);
     checkCursService.checkCurs(coin);
     coin.setLastCurs(coin.getCurrentCurs());
+    lastTrend = coin.getTrend();
   }
+
 
 }

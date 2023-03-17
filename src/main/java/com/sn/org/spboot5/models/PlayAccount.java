@@ -14,6 +14,7 @@ import lombok.ToString;
 @ToString
 public class PlayAccount {
   private double summ;
+  private double startPeriodCurs;
   private AccountState accState;
   private double rangeCursForBuying;
 

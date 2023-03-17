@@ -13,18 +13,24 @@ public class BuySellServiceImpl implements BuySellService{
 
   @Override
   public double buyCoin(Coin coin, Person person) {
-    person.getPlayAccount().setAccState(AccountState.COIN);
-    person.getPlayAccount().setSumm(person.getPlayAccount().getSumm() / coin.getCurrentCurs());
-    log.info("Buying coins");
-    return 0;
+    if (person.getPlayAccount().getAccState() == AccountState.FIAT) {
+      person.getPlayAccount().setAccState(AccountState.COIN);
+      person.getPlayAccount().setStartPeriodCurs(coin.getCurrentCurs());
+      person.getPlayAccount().setSumm(person.getPlayAccount().getSumm() / coin.getCurrentCurs());
+      log.info("Buying coins BTC = {}", person.getPlayAccount().getSumm());
+    }
+    return person.getPlayAccount().getSumm();
   }
 
   @Override
   public double sellCoin(Coin coin, Person person) {
-    person.getPlayAccount().setAccState(AccountState.FIAT);
-    person.getPlayAccount().setSumm(person.getPlayAccount().getSumm() * coin.getCurrentCurs());
-    log.info("Sell coins");
-    return 0;
+    if (person.getPlayAccount().getAccState() == AccountState.COIN) {
+      person.getPlayAccount().setAccState(AccountState.FIAT);
+      person.getPlayAccount().setStartPeriodCurs(coin.getCurrentCurs());
+      person.getPlayAccount().setSumm(person.getPlayAccount().getSumm() * coin.getCurrentCurs());
+      log.info("Sell coins FIAT = {}", person.getPlayAccount().getSumm());
+    }
+    return person.getPlayAccount().getSumm();
   }
 
 }
