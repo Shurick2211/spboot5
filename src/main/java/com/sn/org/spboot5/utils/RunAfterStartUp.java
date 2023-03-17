@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class RunAfterStartUp implements CursFromApi {
   @Value("${start.summ.fiat}")
   private double summ;
-  @Value("${range.curs.for.buy}")
+  @Value("${range.prize.curs}")
   private double rangeCursForBuy;
 
   @Autowired

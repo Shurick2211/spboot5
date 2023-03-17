@@ -16,6 +16,6 @@ public class PlayAccount {
   private double summ;
   private double startPeriodCurs;
   private AccountState accState;
-  private double rangeCursForBuying;
+  private double rangePrizeCursInPercent;
 
 }
