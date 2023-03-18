@@ -1,8 +1,6 @@
 package com.sn.org.spboot5.dto.kraken.tickers;
 
 import lombok.*;
-
-import java.util.List;
 /**
         a
         Array of strings
