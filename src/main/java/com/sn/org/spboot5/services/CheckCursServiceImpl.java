@@ -74,6 +74,7 @@ public class CheckCursServiceImpl implements CheckCursService{
     if (!person.isPlay()) {
       buySellService.buyCoin(coin, person);
       person.setPlay(true);
+      log.info("New player - {}", person);
     }
   }
 

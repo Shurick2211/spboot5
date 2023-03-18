@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Getter
-public class RunAfterStartUp implements CursFromApi {
+public class RunAfterStartUp  {
   @Value("${start.summ.fiat}")
   private double summ;
   @Value("${range.prize.curs}")
@@ -28,18 +28,18 @@ public class RunAfterStartUp implements CursFromApi {
   public void runAfterStartup() {
     Random random = new Random();
 
-    new Thread(() -> {
-      double changed;
-      while (true){
-        changed = curs * random.nextInt(5) / 100;
-        curs += random.nextBoolean() ? - changed : changed;
-        try {
-          Thread.currentThread().sleep(500);
-        } catch (InterruptedException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    }).start();
+//    new Thread(() -> {
+//      double changed;
+//      while (true){
+//        changed = curs * random.nextInt(5) / 100;
+//        curs += random.nextBoolean() ? - changed : changed;
+//        try {
+//          Thread.currentThread().sleep(500);
+//        } catch (InterruptedException e) {
+//          throw new RuntimeException(e);
+//        }
+//      }
+//    }).start();
 
     checkCursService.subscribeToCheck(new Person(summ,
         new PlayAccount(summ, 0, AccountState.FIAT, rangeCursForBuy), false));

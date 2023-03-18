@@ -4,6 +4,7 @@ import com.sn.org.spboot5.models.Coin;
 import com.sn.org.spboot5.utils.RunAfterStartUp;
 import com.sn.org.spboot5.utils.Trend;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +12,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CurseService {
   private final Coin coin;
+
   private final CursFromApi cursFromApi;
   private final CheckCursService checkCursService;
 
   private Trend lastTrend = Trend.UP;
 
 
-  public CurseService(RunAfterStartUp cursFromApi, CheckCursService checkCursService) {
+  public CurseService(CursFromApi cursFromApi, CheckCursService checkCursService) {
     this.cursFromApi = cursFromApi;
     this.checkCursService = checkCursService;
     double startCurs = cursFromApi.getCurs();
