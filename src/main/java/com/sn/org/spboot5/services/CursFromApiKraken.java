@@ -1,6 +1,6 @@
 package com.sn.org.spboot5.services;
 
-import com.sn.org.spboot5.dto.kraken_tickers.TickerKraken;
+import com.sn.org.spboot5.dto.kraken.tickers.TickerKraken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

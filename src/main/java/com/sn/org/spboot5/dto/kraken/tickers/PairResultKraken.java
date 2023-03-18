@@ -1,4 +1,4 @@
-package com.sn.org.spboot5.dto.kraken_tickers;
+package com.sn.org.spboot5.dto.kraken.tickers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
