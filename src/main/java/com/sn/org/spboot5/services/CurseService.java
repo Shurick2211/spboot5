@@ -29,9 +29,13 @@ public class CurseService {
   @Scheduled(fixedDelayString = "${freq.req.curs}")
   public void seenCurs(){
     coin.setCurrentCurs(cursFromApi.getCurs());
-    coin.setTrend(coin.getCurrentCurs() >= coin.getLastCurs() ? Trend.UP: Trend.DOWN);
+    if (coin.getCurrentCurs() != coin.getLastCurs()) {
+      coin.setTrend(coin.getCurrentCurs() > coin.getLastCurs() ? Trend.UP : Trend.DOWN);
+    }
     coin.setChangedTrend(coin.getTrend() != lastTrend);
+    //processing
     checkCursService.checkCurs(coin);
+    //
     coin.setLastCurs(coin.getCurrentCurs());
     lastTrend = coin.getTrend();
   }

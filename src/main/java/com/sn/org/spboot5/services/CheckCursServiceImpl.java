@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class CheckCursServiceImpl implements CheckCursService{
+  private static final double MIN_KOEF = 1.002;
   private final BuySellService buySellService;
 
   private final List<Person> persons = new ArrayList<>();
@@ -22,7 +23,7 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   @Override
   public void checkCurs(Coin coin) {
-    log.info(coin.toString());
+
     persons.forEach(person -> playForPerson(person, coin));
   }
 
@@ -31,15 +32,17 @@ public class CheckCursServiceImpl implements CheckCursService{
   private void playForPerson(Person person, Coin coin){
     if(coin.getTrend() == Trend.UP) {
       if (coin.isChangedTrend()) {
+        log.info(coin.toString());
         newPerson(person, coin);
         if (isNoBad(person, coin)){
-          log.info("BTC Summ = {}", buySellService.buyCoin(coin, person));
+          log.info("BTC Summ = {} ", buySellService.buyCoin(coin, person));
         }
       }
     } else {
       if (coin.isChangedTrend()) {
+        log.info(coin.toString());
         if (isPrize(person, coin)) {
-          log.info("FIAT Summ = {}", buySellService.sellCoin(coin, person));
+          log.info("FIAT Summ = {} ", buySellService.sellCoin(coin, person));
         } else {
           savePoint(person, coin);
         }
@@ -49,10 +52,10 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   private void savePoint(Person person, Coin coin) {
-    if (person.getStartSummFiat() < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
-      person.setStartSummFiat(buySellService.sellCoin(coin, person));
-      person.setPlay(false);
+    if (person.getStartSummFiat() < person.getPlayAccount().getSumm() * coin.getCurrentCurs() * MIN_KOEF) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
+      person.setStartSummFiat(buySellService.sellCoin(coin, person));
+     // person.setPlay(false);
     } else {
       log.info("WAIT...");
     }
@@ -72,9 +75,9 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private void newPerson(Person person, Coin coin) {
     if (!person.isPlay()) {
+      log.info("New player - {}", person);
       buySellService.buyCoin(coin, person);
       person.setPlay(true);
-      log.info("New player - {}", person);
     }
   }
 

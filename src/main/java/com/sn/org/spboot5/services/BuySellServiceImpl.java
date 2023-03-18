@@ -17,7 +17,7 @@ public class BuySellServiceImpl implements BuySellService{
       person.getPlayAccount().setAccState(AccountState.COIN);
       person.getPlayAccount().setStartPeriodCurs(coin.getCurrentCurs());
       person.getPlayAccount().setSumm(person.getPlayAccount().getSumm() / coin.getCurrentCurs());
-      log.info("Buying coins BTC = {}", person.getPlayAccount().getSumm());
+      log.info("Buying coins BTC = {}  curs = {}", person.getPlayAccount().getSumm(), coin.getCurrentCurs());
     }
     return person.getPlayAccount().getSumm();
   }
@@ -28,7 +28,7 @@ public class BuySellServiceImpl implements BuySellService{
       person.getPlayAccount().setAccState(AccountState.FIAT);
       person.getPlayAccount().setStartPeriodCurs(coin.getCurrentCurs());
       person.getPlayAccount().setSumm(person.getPlayAccount().getSumm() * coin.getCurrentCurs());
-      log.info("Sell coins FIAT = {}", person.getPlayAccount().getSumm());
+      log.info("Sell coins FIAT = {}  curs = {}", person.getPlayAccount().getSumm(), coin.getCurrentCurs());
     }
     return person.getPlayAccount().getSumm();
   }
