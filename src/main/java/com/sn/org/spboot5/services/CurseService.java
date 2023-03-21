@@ -31,15 +31,16 @@ public class CurseService {
   @Scheduled(fixedDelayString = "${freq.req.curs}")
   public void seenCurs(){
     coin.setCurrentCurs(cursFromApi.getCurs());
-    if (coin.getCurrentCurs() != coin.getLastCurs()) {
-      coin.setRate(changeTrendPercent(coin.getCurrentCurs(), coin.getLastCurs()));
+    coin.setRate(changeTrendPercent(coin.getCurrentCurs(), coin.getLastCurs()));
+    if (coin.getRate() > changeTrend / 100) {
       coin.setTrend(coin.getCurrentCurs() > coin.getLastCurs() ? Trend.UP : Trend.DOWN);
+      coin.setChangedTrend(coin.getTrend() != lastTrend);
+      log.info("rate = {}", coin);
     }
-    coin.setChangedTrend(coin.getTrend() != lastTrend);
     //processing
     checkCursService.checkCurs(coin);
     //
-    if (coin.getRate() > changeTrend) {
+    if (coin.getRate() > changeTrend / 100) {
       coin.setLastCurs(coin.getCurrentCurs());
     }
     lastTrend = coin.getTrend();

@@ -51,7 +51,6 @@ public class CheckCursServiceImpl implements CheckCursService{
         }
       }
     }
-
   }
 
   private void savePoint(Person person, Coin coin) {
