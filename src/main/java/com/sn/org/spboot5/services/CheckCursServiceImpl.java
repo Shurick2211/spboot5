@@ -55,8 +55,8 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   private void savePoint(Person person, Coin coin) {
-    if (person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()
-        && person.getPlayAccount().getRangePrizeCursInPercent() < coin.getRate()) {
+    if (person.getPlayAccount().getRangePrizeCursInPercent() < coin.getRate()
+        && person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
       person.setStartSummFiat(buySellService.sellCoin(coin, person));
      // person.setPlay(false);
