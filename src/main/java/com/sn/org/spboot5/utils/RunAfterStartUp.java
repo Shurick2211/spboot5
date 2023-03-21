@@ -3,7 +3,6 @@ package com.sn.org.spboot5.utils;
 import com.sn.org.spboot5.models.Person;
 import com.sn.org.spboot5.models.PlayAccount;
 import com.sn.org.spboot5.services.CheckCursService;
-import com.sn.org.spboot5.services.CursFromApi;
 import java.util.Random;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class RunAfterStartUp  {
   @Value("${start.summ.fiat}")
   private double summ;
-  @Value("${range.prize.curs}")
+  @Value("${range.prize.curs.percent}")
   private double rangeCursForBuy;
 
   @Autowired

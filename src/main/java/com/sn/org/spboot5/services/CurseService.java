@@ -17,7 +17,7 @@ public class CurseService {
 
   private Trend lastTrend = Trend.UP;
 
-  @Value("${trend.change.limit}")
+  @Value("${trend.change.limit.persent}")
   private double changeTrend;
 
 
