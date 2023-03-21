@@ -15,6 +15,8 @@ import lombok.ToString;
 public class Coin {
   private double lastCurs;
   private double currentCurs;
+  private double rate;
   private Trend trend;
   private boolean isChangedTrend;
+
 }

@@ -25,28 +25,28 @@ public class CurseService {
     this.cursFromApi = cursFromApi;
     this.checkCursService = checkCursService;
     double startCurs = cursFromApi.getCurs();
-    this.coin = new Coin(startCurs, startCurs, lastTrend, false);
+    this.coin = new Coin(startCurs, startCurs, 0, lastTrend, false);
   }
 
   @Scheduled(fixedDelayString = "${freq.req.curs}")
   public void seenCurs(){
     coin.setCurrentCurs(cursFromApi.getCurs());
     if (coin.getCurrentCurs() != coin.getLastCurs()) {
+      coin.setRate(changeTrendPercent(coin.getCurrentCurs(), coin.getLastCurs()));
       coin.setTrend(coin.getCurrentCurs() > coin.getLastCurs() ? Trend.UP : Trend.DOWN);
     }
     coin.setChangedTrend(coin.getTrend() != lastTrend);
     //processing
     checkCursService.checkCurs(coin);
     //
-    if (changeTrendPercent(coin.getCurrentCurs(), coin.getLastCurs())) {
+    if (coin.getRate() > changeTrend) {
       coin.setLastCurs(coin.getCurrentCurs());
     }
     lastTrend = coin.getTrend();
   }
 
-  private boolean changeTrendPercent(double currentCurs, double lastCurs) {
-    double rate = lastCurs/currentCurs > 1 ? lastCurs/currentCurs - 1: lastCurs/currentCurs;
-    return  rate  > changeTrend;
+  private double changeTrendPercent(double currentCurs, double lastCurs) {
+    return lastCurs/currentCurs > 1 ? lastCurs/currentCurs - 1: 1 - lastCurs/currentCurs;
   }
 
 

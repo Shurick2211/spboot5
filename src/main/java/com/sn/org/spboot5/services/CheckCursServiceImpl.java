@@ -20,21 +20,21 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   public CheckCursServiceImpl(BuySellService buySellService) {
     this.buySellService = buySellService;
+
   }
 
   @Override
   public void checkCurs(Coin coin) {
-
     persons.forEach(person -> playForPerson(person, coin));
+
   }
 
 
-
   private void playForPerson(Person person, Coin coin){
+    newPerson(person, coin);
     if(coin.getTrend() == Trend.UP) {
       if (coin.isChangedTrend()) {
         log.info(coin.toString());
-        newPerson(person, coin);
         if (isNoBad(person, coin) && person.getPlayAccount().getAccState() == AccountState.FIAT){
           log.info("BTC Summ = {} ", buySellService.buyCoin(coin, person));
         }
@@ -55,7 +55,8 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   private void savePoint(Person person, Coin coin) {
-    if (person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
+    if (person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()
+        && person.getPlayAccount().getRangePrizeCursInPercent() < coin.getRate()) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
       person.setStartSummFiat(buySellService.sellCoin(coin, person));
      // person.setPlay(false);
