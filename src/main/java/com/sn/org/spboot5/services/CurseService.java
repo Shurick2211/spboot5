@@ -35,11 +35,12 @@ public class CurseService {
     if (coin.getRate() > changeTrend / 100) {
       coin.setTrend(coin.getCurrentCurs() > coin.getLastCurs() ? Trend.UP : Trend.DOWN);
       coin.setChangedTrend(coin.getTrend() != lastTrend);
-      log.info("rate = {}", coin);
+      //log.info("rate = {}", coin);
     }
     //processing
     checkCursService.checkCurs(coin);
     //
+    coin.setChangedTrend(false);
     if (coin.getRate() > changeTrend / 100) {
       coin.setLastCurs(coin.getCurrentCurs());
     }
