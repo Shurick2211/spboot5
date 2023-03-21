@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class CheckCursServiceImpl implements CheckCursService{
-  private static final double MIN_KOEF = 1.005;
+  private static final double MIN_KOEF = 1.002;
   private final BuySellService buySellService;
 
   private final List<Person> persons = new ArrayList<>();

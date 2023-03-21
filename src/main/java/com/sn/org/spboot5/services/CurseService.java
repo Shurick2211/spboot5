@@ -1,10 +1,9 @@
 package com.sn.org.spboot5.services;
 
 import com.sn.org.spboot5.models.Coin;
-import com.sn.org.spboot5.utils.RunAfterStartUp;
 import com.sn.org.spboot5.utils.Trend;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,9 @@ public class CurseService {
   private final CheckCursService checkCursService;
 
   private Trend lastTrend = Trend.UP;
+
+  @Value("${trend.change}")
+  private double changeTrend;
 
 
   public CurseService(CursFromApi cursFromApi, CheckCursService checkCursService) {
@@ -36,8 +38,15 @@ public class CurseService {
     //processing
     checkCursService.checkCurs(coin);
     //
-    coin.setLastCurs(coin.getCurrentCurs());
+    if (changeTrendPercent(coin.getCurrentCurs(), coin.getLastCurs())) {
+      coin.setLastCurs(coin.getCurrentCurs());
+    }
     lastTrend = coin.getTrend();
+  }
+
+  private boolean changeTrendPercent(double currentCurs, double lastCurs) {
+    double rate = lastCurs/currentCurs > 1 ? lastCurs/currentCurs - 1: lastCurs/currentCurs;
+    return  rate  > changeTrend;
   }
 
 
