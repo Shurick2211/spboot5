@@ -1,14 +1,14 @@
-package com.sn.org.spboot5.services;
+package com.sn.org.spboot5.kraken;
 
-import com.sn.org.spboot5.dto.kraken.tickers.TickerKraken;
-import com.sn.org.spboot5.utils.KrakenApiMethod;
+import com.sn.org.spboot5.kraken.dto.tickers.TickerKraken;
+import com.sn.org.spboot5.services.CursFromApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 @Slf4j
-public class CursFromApiKraken implements CursFromApi{
+public class CursFromApiKraken implements CursFromApi {
 
     private final String urlCurs = KrakenApiMethod.TICKER_INFORMATION.getUrl(0) + "?pair=XBTUSD";
     private final RestTemplate template = new RestTemplate();

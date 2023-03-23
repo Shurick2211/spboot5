@@ -1,4 +1,4 @@
-package com.sn.org.spboot5.utils;
+package com.sn.org.spboot5.kraken;
 
 /**
  * Kraken API methods

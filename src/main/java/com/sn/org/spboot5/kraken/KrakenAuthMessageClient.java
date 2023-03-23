@@ -1,4 +1,4 @@
-package com.sn.org.spboot5.utils;
+package com.sn.org.spboot5.kraken;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

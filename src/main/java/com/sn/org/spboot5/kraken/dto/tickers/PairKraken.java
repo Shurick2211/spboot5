@@ -1,4 +1,4 @@
-package com.sn.org.spboot5.dto.kraken.tickers;
+package com.sn.org.spboot5.kraken.dto.tickers;
 
 import lombok.*;
 /**

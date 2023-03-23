@@ -1,8 +1,7 @@
 package com.sn.org.spboot5.services;
 
+import com.sn.org.spboot5.kraken.CursFromApiKraken;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CursFromApiKrakenTest {
 
