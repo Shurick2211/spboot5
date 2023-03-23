@@ -58,4 +58,7 @@ public class KrakenAuthMessageClient {
     return Base64.getEncoder().encodeToString(hash2);
   }
 
+  public static String generateNonce() {
+    return String.valueOf(System.currentTimeMillis() * 17);
+  }
 }
