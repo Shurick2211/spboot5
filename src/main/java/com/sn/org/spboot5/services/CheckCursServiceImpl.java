@@ -7,6 +7,7 @@ import com.sn.org.spboot5.utils.Trend;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j ;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,9 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private final List<Person> persons = new ArrayList<>();
 
+  @Value("${stop.game.percent}")
+  private double stopPercent;
+
 
   public CheckCursServiceImpl(BuySellService buySellService) {
     this.buySellService = buySellService;
@@ -26,7 +30,6 @@ public class CheckCursServiceImpl implements CheckCursService{
   @Override
   public void checkCurs(Coin coin) {
     persons.forEach(person -> playForPerson(person, coin));
-
   }
 
 
@@ -45,6 +48,7 @@ public class CheckCursServiceImpl implements CheckCursService{
         if (person.getPlayAccount().getAccState() == AccountState.COIN) {
           if (isPrize(person, coin)) {
             log.info("Winn FIAT Summ = {} ", buySellService.sellCoin(coin, person));
+            stopGame(person);
           } else {
             savePoint(person, coin);
           }
@@ -81,6 +85,16 @@ public class CheckCursServiceImpl implements CheckCursService{
       log.info("New player - {}", person);
       buySellService.buyCoin(coin, person);
       person.setPlay(true);
+    }
+  }
+
+  private void stopGame(Person person) {
+    if (person.getPlayAccount().getAccState() == AccountState.FIAT
+        && person.getStartSummFiat() * (1 + stopPercent / 100) > person.getPlayAccount().getSumm()) {
+      if (persons.remove(person)) {
+        person.setPlay(false);
+        log.info("STOP game {}", person);
+      }
     }
   }
 
