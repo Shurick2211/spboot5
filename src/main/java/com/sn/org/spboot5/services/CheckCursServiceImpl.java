@@ -21,6 +21,8 @@ public class CheckCursServiceImpl implements CheckCursService{
   @Value("${stop.game.percent}")
   private double stopPercent;
 
+  @Value("${trend.change.limit.persent}")
+  private double changeTrend;
 
   public CheckCursServiceImpl(BuySellService buySellService) {
     this.buySellService = buySellService;
@@ -69,9 +71,11 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   private boolean isNoBad(Person person, Coin coin) {
-    double savePrize = person.getPlayAccount().getStartPeriodCurs()
-        * (1 - person.getPlayAccount().getRangePrizeCursInPercent())/100;
-    return savePrize > coin.getCurrentCurs();
+    double trendDown = person.getPlayAccount().getStartPeriodCurs()
+        * (1 - changeTrend)/100;
+    double trendUP = person.getPlayAccount().getStartPeriodCurs()
+        * (1 + changeTrend)/100;
+    return trendDown > coin.getCurrentCurs() || trendUP < coin.getCurrentCurs();
   }
 
   private boolean isPrize(Person person, Coin coin) {
@@ -90,8 +94,9 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private void stopGame(Person person) {
     if (person.getPlayAccount().getAccState() == AccountState.FIAT
-        && person.getStartSummFiat() * (1 + stopPercent / 100) > person.getPlayAccount().getSumm()) {
+        && person.getStartSummFiat() * (1 + stopPercent / 100) < person.getPlayAccount().getSumm()) {
       if (persons.remove(person)) {
+        person.setStartSummFiat(person.getPlayAccount().getSumm());
         person.setPlay(false);
         log.info("STOP game {}", person);
       }
