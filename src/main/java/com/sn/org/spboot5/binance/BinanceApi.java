@@ -13,16 +13,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BinanceApi implements CursFromApi {
 
-  private SpotClient client = new SpotClientImpl();
+  private final SpotClient client = new SpotClientImpl();
 
-  LinkedHashMap<String,Object> parameters = new LinkedHashMap<String,Object>();
+  LinkedHashMap<String,Object> parameters = new LinkedHashMap<>();
 
 
   @Override
   public double getCurs() {
     parameters.put("symbol","BTCUSDT");
-    //log.info(JSONParser.getJSONStringValue(client.createMarket().ticker(parameters),"lastPrice"));
-   //
+    //log.info(client.createMarket().ticker(parameters));
     return Double.parseDouble(JSONParser.getJSONStringValue(client.createMarket().ticker(parameters),"lastPrice"));
   }
 }

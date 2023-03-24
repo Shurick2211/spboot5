@@ -66,8 +66,8 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private boolean isNoBad(Person person, Coin coin) {
     double savePrize = person.getPlayAccount().getStartPeriodCurs()
-        * (1 + person.getPlayAccount().getRangePrizeCursInPercent())/100;
-    return savePrize < coin.getCurrentCurs();
+        * (1 - person.getPlayAccount().getRangePrizeCursInPercent())/100;
+    return savePrize > coin.getCurrentCurs();
   }
 
   private boolean isPrize(Person person, Coin coin) {
