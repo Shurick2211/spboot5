@@ -7,4 +7,6 @@ public interface BuySellServiceApi {
   double buyCoin(Person person);
   double sellCoin(Person person);
 
+  String getWallet(Person person);
+
 }

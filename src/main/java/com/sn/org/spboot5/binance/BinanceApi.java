@@ -49,4 +49,12 @@ public class BinanceApi implements CursFromApi, BuySellServiceApi {
     person.getPlayAccount().setStartPeriodCurs(Double.parseDouble(JSONParser.getJSONStringValue(order, "price")));
     return Double.parseDouble(JSONParser.getJSONStringValue(order, "executedQty"));
   }
+
+  @Override
+  public  String getWallet(Person person) {
+    SpotClient clientPerson = new SpotClientImpl(person.getApiKey(), person.getSecretKey());
+    parameters.put("type","SPOT");
+    log.info(clientPerson.createWallet().accountStatus(parameters));
+    return "";
+  }
 }
