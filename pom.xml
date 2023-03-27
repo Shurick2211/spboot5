@@ -39,6 +39,20 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.telegram</groupId>
+      <artifactId>telegrambots-spring-boot-starter</artifactId>
+      <version>6.5.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.collections/google-collections -->
+    <dependency>
+      <groupId>com.google.collections</groupId>
+      <artifactId>google-collections</artifactId>
+      <version>1.0-rc2</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
