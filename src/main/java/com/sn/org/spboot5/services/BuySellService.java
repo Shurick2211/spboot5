@@ -4,16 +4,23 @@ import com.sn.org.spboot5.models.Coin;
 import com.sn.org.spboot5.models.Person;
 import com.sn.org.spboot5.utils.AccountState;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 public class BuySellService {
 
+  private BuySellServiceApi buySellServiceApi;
+  @Autowired
+  public BuySellService(BuySellServiceApi buySellServiceApi) {
+    this.buySellServiceApi = buySellServiceApi;
+  }
 
   public double buyCoin(Coin coin, Person person) {
     if (person.getPlayAccount().getAccState() == AccountState.FIAT) {
       person.getPlayAccount().setAccState(AccountState.COIN);
+      //buySellServiceApi.buyCoin(person);
       person.getPlayAccount().setStartPeriodCurs(coin.getCurrentCurs());
       person.getPlayAccount().setSumm(person.getPlayAccount().getSumm() / coin.getCurrentCurs());
       log.info("Buying coins BTC = {}  curs = {}", person.getPlayAccount().getSumm(), coin.getCurrentCurs());
@@ -25,6 +32,7 @@ public class BuySellService {
   public double sellCoin(Coin coin, Person person) {
     if (person.getPlayAccount().getAccState() == AccountState.COIN) {
       person.getPlayAccount().setAccState(AccountState.FIAT);
+      //buySellServiceApi.sellCoin(person);
       person.getPlayAccount().setStartPeriodCurs(coin.getCurrentCurs());
       person.getPlayAccount().setSumm(person.getPlayAccount().getSumm() * coin.getCurrentCurs());
       log.info("Sell coins FIAT = {}  curs = {}", person.getPlayAccount().getSumm(), coin.getCurrentCurs());

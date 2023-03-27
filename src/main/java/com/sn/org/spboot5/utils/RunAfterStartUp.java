@@ -41,7 +41,10 @@ public class RunAfterStartUp  {
 //    }).start();
 
     checkCursService.subscribeToCheck(new Person(summ,
-        new PlayAccount(summ, 0, AccountState.FIAT, rangeCursForBuy), false));
+        new PlayAccount(summ, 0, AccountState.FIAT, rangeCursForBuy),
+        false,
+        " ",
+        " "));
 
   }
 }
