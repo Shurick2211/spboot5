@@ -79,7 +79,7 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private boolean isNoBad(Person person, Coin coin) {
     double trendDown = person.getPlayAccount().getStartPeriodCurs()
-        * (1 - 2 * changeTrend)/100;
+        * (1 - changeTrend)/100;
    // double trendUP = person.getPlayAccount().getStartPeriodCurs() * (1 + changeTrend)/100;
     return trendDown > coin.getCurrentCurs(); //|| trendUP < coin.getCurrentCurs();
   }
@@ -93,12 +93,11 @@ public class CheckCursServiceImpl implements CheckCursService{
   private void newPerson(Person person, Coin coin) {
     if (!person.isPlay()) {
       log.info("New player - {}", person);
-      bot.sendTelegram(person, "New player - " + person +
-              "\nBuying coins BTC = " + person.getPlayAccount().getSumm()
-              + "  curs = {}" +  coin.getCurrentCurs()
-          );
-
       buySellService.buyCoin(coin, person);
+      bot.sendTelegram(person, "New player - " + person +
+          "\nBuying coins BTC = " + person.getPlayAccount().getSumm()
+          + "  curs = {}" +  coin.getCurrentCurs()
+      );
       person.setPlay(true);
     }
   }
