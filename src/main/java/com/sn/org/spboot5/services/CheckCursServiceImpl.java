@@ -72,10 +72,9 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private boolean isNoBad(Person person, Coin coin) {
     double trendDown = person.getPlayAccount().getStartPeriodCurs()
-        * (1 - changeTrend)/100;
-    double trendUP = person.getPlayAccount().getStartPeriodCurs()
-        * (1 + changeTrend)/100;
-    return trendDown > coin.getCurrentCurs() || trendUP < coin.getCurrentCurs();
+        * (1 - 2 * changeTrend)/100;
+   // double trendUP = person.getPlayAccount().getStartPeriodCurs() * (1 + changeTrend)/100;
+    return trendDown > coin.getCurrentCurs(); //|| trendUP < coin.getCurrentCurs();
   }
 
   private boolean isPrize(Person person, Coin coin) {

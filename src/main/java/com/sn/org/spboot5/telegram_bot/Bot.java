@@ -25,8 +25,6 @@ public class Bot extends TelegramLongPollingBot {
         CommandBox commandBox = new CommandBox(new SendMess(this));
         if(update.hasMessage()) {
             String message = update.getMessage().getText().trim();
-            log.info("{} {} : {}",update.getMessage().getFrom().getFirstName(),
-                    update.getMessage().getFrom().getUserName(),message);
             if (message.startsWith("/")) {
                 String identification = message.split(" ")[0].toLowerCase();
                 commandBox.useCommand(identification).execute(update.getMessage());
@@ -34,24 +32,7 @@ public class Bot extends TelegramLongPollingBot {
                 commandBox.useCommand(CommandName.NO.name()).execute(update.getMessage());
             }
         }
-        /* else
 
-        if(update.hasCallbackQuery() && update.getCallbackQuery().getData().equals("list")){
-            long chatId = update.getCallbackQuery().getFrom().getId();
-            db.save(new Person(chatId,
-                    update.getCallbackQuery().getFrom().getFirstName(),
-                    update.getCallbackQuery().getFrom().getLastName(),
-                    update.getCallbackQuery().getFrom().getUserName()
-                    ));
-            String mess = db.findAll().stream()
-                    .map(Person::toString)
-                    .reduce((x,y) -> x.replace("null","")
-                            + "\n" + y.replace("null",""))
-                    .orElse("");
-            new SendMess(this).send(String.valueOf(chatId),mess);
-        }
-
- */
     }
 
     @Override

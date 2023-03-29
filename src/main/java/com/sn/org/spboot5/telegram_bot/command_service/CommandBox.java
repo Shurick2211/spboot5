@@ -11,11 +11,11 @@ import com.sn.org.spboot5.telegram_bot.command.StopCommand;
 import com.sn.org.spboot5.telegram_bot.command.TestCommand;
 import com.sn.org.spboot5.telegram_bot.command.UnknowCommand;
 import com.sn.org.spboot5.telegram_bot.send_service.SendMessService;
+import org.springframework.stereotype.Component;
 
 
 public class CommandBox {
     private final UnknowCommand unknowCommand;
-
     private final ImmutableMap<String, Command> commandMap;
 
     public CommandBox(SendMessService sendMessService) {
