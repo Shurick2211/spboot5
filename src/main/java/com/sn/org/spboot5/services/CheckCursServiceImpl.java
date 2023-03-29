@@ -93,7 +93,11 @@ public class CheckCursServiceImpl implements CheckCursService{
   private void newPerson(Person person, Coin coin) {
     if (!person.isPlay()) {
       log.info("New player - {}", person);
-      bot.sendTelegram(person, "New player - " + person);
+      bot.sendTelegram(person, "New player - " + person +
+              "\nBuying coins BTC = " + person.getPlayAccount().getSumm()
+              + "  curs = {}" +  coin.getCurrentCurs()
+          );
+
       buySellService.buyCoin(coin, person);
       person.setPlay(true);
     }
