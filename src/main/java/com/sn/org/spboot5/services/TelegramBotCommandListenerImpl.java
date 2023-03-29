@@ -26,7 +26,7 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
         false,
         " ",
         " "));
-    return "Tyt buy";
+    return "Start!";
   }
 
   @Override
