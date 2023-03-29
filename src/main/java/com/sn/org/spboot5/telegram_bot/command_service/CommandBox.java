@@ -2,7 +2,7 @@ package com.sn.org.spboot5.telegram_bot.command_service;
 
 
 import com.google.common.collect.ImmutableMap;
-import com.sn.org.spboot5.services.TelegramBotListener;
+import com.sn.org.spboot5.services.TelegramBotCommandListener;
 import com.sn.org.spboot5.telegram_bot.command.Button;
 import com.sn.org.spboot5.telegram_bot.command.CursCommand;
 import com.sn.org.spboot5.telegram_bot.command.HelpCommand;
@@ -19,7 +19,7 @@ public class CommandBox {
     ;
     private final ImmutableMap<String, CommandPattern> commandMap;
 
-    public CommandBox(SendMessService sendMessService, TelegramBotListener botListener) {
+    public CommandBox(SendMessService sendMessService, TelegramBotCommandListener botListener) {
         commandMap = ImmutableMap.<String, CommandPattern>builder()
                 .put(CommandName.START.getComName(), new StartCommand(sendMessService, botListener))
                 .put(CommandName.CURS.getComName(), new CursCommand(sendMessService, botListener))

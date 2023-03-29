@@ -1,6 +1,6 @@
 package com.sn.org.spboot5.telegram_bot.command;
 
-import com.sn.org.spboot5.services.TelegramBotListener;
+import com.sn.org.spboot5.services.TelegramBotCommandListener;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandBox;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandPattern;
 import com.sn.org.spboot5.telegram_bot.send_service.SendMessInline;
@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 public class NoCommand extends CommandPattern {
 
 
-    public NoCommand(SendMessService sendMessService, TelegramBotListener botListener) {
+    public NoCommand(SendMessService sendMessService, TelegramBotCommandListener botListener) {
         super(sendMessService, botListener);
     }
 

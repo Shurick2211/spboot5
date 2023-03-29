@@ -2,7 +2,7 @@ package com.sn.org.spboot5.telegram_bot;
 
 
 
-import com.sn.org.spboot5.services.TelegramBotListener;
+import com.sn.org.spboot5.services.TelegramBotCommandListener;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandBox;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandName;
 import com.sn.org.spboot5.telegram_bot.send_service.SendMess;
@@ -21,7 +21,7 @@ public class Bot extends TelegramLongPollingBot {
     private String botName;
 
     @Autowired
-    private TelegramBotListener botListener;
+    private TelegramBotCommandListener botListener;
     @Override
     public void onUpdateReceived(Update update) {
         CommandBox commandBox = new CommandBox(new SendMess(this), botListener);

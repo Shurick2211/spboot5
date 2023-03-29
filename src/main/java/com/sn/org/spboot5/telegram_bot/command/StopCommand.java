@@ -1,7 +1,7 @@
 package com.sn.org.spboot5.telegram_bot.command;
 
 
-import com.sn.org.spboot5.services.TelegramBotListener;
+import com.sn.org.spboot5.services.TelegramBotCommandListener;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandPattern;
 import com.sn.org.spboot5.telegram_bot.send_service.SendMessService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 public class StopCommand extends CommandPattern {
 
 
-    public StopCommand(SendMessService sendMessService, TelegramBotListener botListener) {
+    public StopCommand(SendMessService sendMessService, TelegramBotCommandListener botListener) {
         super(sendMessService, botListener);
     }
 

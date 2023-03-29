@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class TelegramBotListenerImpl implements TelegramBotListener{
+public class TelegramBotCommandListenerImpl implements TelegramBotCommandListener {
 
   @Autowired
   private BuySellServiceApi buySellServiceApi;
