@@ -12,6 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Person {
+  private String telegramId;
   private double startSummFiat;
   private PlayAccount playAccount;
   boolean isPlay;

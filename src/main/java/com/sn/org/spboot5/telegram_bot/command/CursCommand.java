@@ -15,7 +15,7 @@ public class CursCommand extends CommandPattern {
 
     @Override
     public void execute(Message message) {
-        String mess = "Курс = " + botListener.curs();
+        String mess = "Курс = " + botListener.curs(String.valueOf(message.getChatId()));
         sendMessService.send(message.getChatId().toString(), mess);
     }
 }

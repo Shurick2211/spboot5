@@ -2,11 +2,14 @@ package com.sn.org.spboot5.services;
 
 import com.sn.org.spboot5.models.Coin;
 import com.sn.org.spboot5.models.Person;
+import com.sn.org.spboot5.telegram_bot.Bot;
+import com.sn.org.spboot5.telegram_bot.send_service.SendMess;
 import com.sn.org.spboot5.utils.AccountState;
 import com.sn.org.spboot5.utils.Trend;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j ;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +45,7 @@ public class CheckCursServiceImpl implements CheckCursService{
         log.info(coin.toString());
         if (isNoBad(person, coin) && person.getPlayAccount().getAccState() == AccountState.FIAT){
           log.info("BTC Summ = {} ", buySellService.buyCoin(coin, person));
+          //new SendMess(bot).send(person.getTelegramId(),"Buying coins BTC = " + person.getPlayAccount().getSumm() + "  curs = " + coin.getCurrentCurs());
         }
       }
     } else {
@@ -50,6 +54,7 @@ public class CheckCursServiceImpl implements CheckCursService{
         if (person.getPlayAccount().getAccState() == AccountState.COIN) {
           if (isPrize(person, coin)) {
             log.info("Winn FIAT Summ = {} ", buySellService.sellCoin(coin, person));
+           // new SendMess(bot).send(person.getTelegramId(),"Sell coins BTC = " + person.getPlayAccount().getSumm() + "  curs = " + coin.getCurrentCurs());
             stopGame(person);
           } else {
             savePoint(person, coin);
@@ -63,10 +68,12 @@ public class CheckCursServiceImpl implements CheckCursService{
     if (person.getPlayAccount().getRangePrizeCursInPercent() < (coin.getLastCurs()/coin.getCurrentCurs() - 1)
         && person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
+     // new SendMess(bot).send(person.getTelegramId(), "Save FIAT Summ = {}" + person.getStartSummFiat());
       person.setStartSummFiat(buySellService.sellCoin(coin, person));
      // person.setPlay(false);
     } else {
       log.info("WAIT...");
+     // new SendMess(bot).send(person.getTelegramId(), "Wait...");
     }
   }
 
@@ -86,6 +93,7 @@ public class CheckCursServiceImpl implements CheckCursService{
   private void newPerson(Person person, Coin coin) {
     if (!person.isPlay()) {
       log.info("New player - {}", person);
+     // new SendMess(bot).send(person.getTelegramId(), "New player - " + person);
       buySellService.buyCoin(coin, person);
       person.setPlay(true);
     }
@@ -98,6 +106,7 @@ public class CheckCursServiceImpl implements CheckCursService{
         person.setStartSummFiat(person.getPlayAccount().getSumm());
         person.setPlay(false);
         log.info("STOP game {}", person);
+      //  new SendMess(bot).send(person.getTelegramId(), "STOP game {}" + person);
       }
     }
   }

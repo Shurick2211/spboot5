@@ -6,10 +6,10 @@ import com.sn.org.spboot5.telegram_bot.command_service.CommandPattern;
 import com.sn.org.spboot5.telegram_bot.send_service.SendMessService;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-public class Button extends CommandPattern {
+public class MenuButtons extends CommandPattern {
 
 
-    public Button(SendMessService sendMessService, TelegramBotCommandListener botListener) {
+    public MenuButtons(SendMessService sendMessService, TelegramBotCommandListener botListener) {
         super(sendMessService, botListener);
     }
 

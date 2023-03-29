@@ -2,8 +2,10 @@ package com.sn.org.spboot5.services;
 
 import com.sn.org.spboot5.models.Coin;
 import com.sn.org.spboot5.models.Person;
+import com.sn.org.spboot5.telegram_bot.Bot;
 import com.sn.org.spboot5.utils.AccountState;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BuySellService {
 
-  private BuySellServiceApi buySellServiceApi;
+  private final BuySellServiceApi buySellServiceApi;
   @Autowired
   public BuySellService(BuySellServiceApi buySellServiceApi) {
     this.buySellServiceApi = buySellServiceApi;

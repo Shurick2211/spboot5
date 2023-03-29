@@ -1,7 +1,7 @@
 package com.sn.org.spboot5.telegram_bot;
 
 
-
+import com.sn.org.spboot5.models.Person;
 import com.sn.org.spboot5.services.TelegramBotCommandListener;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandBox;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandName;
@@ -14,7 +14,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @Component
-public class Bot extends TelegramLongPollingBot {
+public class Bot extends TelegramLongPollingBot  {
     @Value("${bot.token}")
     private String botToken;
     @Value("${bot.name}")
@@ -46,5 +46,6 @@ public class Bot extends TelegramLongPollingBot {
     public String getBotToken() {
         return botToken;
     }
+
 
 }
