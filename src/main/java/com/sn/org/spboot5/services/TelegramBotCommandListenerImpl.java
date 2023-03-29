@@ -18,11 +18,10 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   private BuySellServiceApi buySellServiceApi;
   @Autowired
   private CursFromApi cursFromApi;
-  @Autowired
-  private CheckCursService checkCursService;
+
   @Override
   public String buy(String id) {
-    checkCursService.subscribeToCheck(new Person(id,summ,
+    CheckCursServiceImpl.subscribeToCheck(new Person(id,summ,
         new PlayAccount(summ, 0, AccountState.FIAT, rangeCursForBuy),
         false,
         " ",

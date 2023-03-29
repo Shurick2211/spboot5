@@ -48,4 +48,7 @@ public class Bot extends TelegramLongPollingBot  {
     }
 
 
+    public void sendTelegram(Person person, String mess) {
+        new SendMess(this).send(person.getTelegramId(),mess);
+    }
 }
