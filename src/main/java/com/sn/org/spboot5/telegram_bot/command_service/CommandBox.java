@@ -17,10 +17,10 @@ import com.sn.org.spboot5.telegram_bot.send_service.SendMessService;
 public class CommandBox {
     private final UnknowCommand unknowCommand;
     ;
-    private final ImmutableMap<String, Command> commandMap;
+    private final ImmutableMap<String, CommandPattern> commandMap;
 
     public CommandBox(SendMessService sendMessService, TelegramBotListener botListener) {
-        commandMap = ImmutableMap.<String, Command>builder()
+        commandMap = ImmutableMap.<String, CommandPattern>builder()
                 .put(CommandName.START.getComName(), new StartCommand(sendMessService, botListener))
                 .put(CommandName.CURS.getComName(), new CursCommand(sendMessService, botListener))
                 .put(CommandName.HELP.getComName(), new HelpCommand(sendMessService, botListener))
@@ -32,7 +32,7 @@ public class CommandBox {
         unknowCommand = new UnknowCommand(sendMessService, botListener);
 
     }
-    public Command useCommand(String identification){
+    public CommandPattern useCommand(String identification){
         return commandMap.getOrDefault(identification, unknowCommand);
     }
 }

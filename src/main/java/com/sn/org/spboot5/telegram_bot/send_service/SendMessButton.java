@@ -27,7 +27,7 @@ public class SendMessButton implements SendMessService{
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
         sendMessage.enableHtml(true);
-        String message="Hello!";
+        String message="Це можна зробити кнопкaми нижче!";
         sendMessage.setText(message);
 
         try {
