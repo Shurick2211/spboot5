@@ -2,10 +2,12 @@ package com.sn.org.spboot5.telegram_bot;
 
 
 
+import com.sn.org.spboot5.services.TelegramBotListener;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandBox;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandName;
 import com.sn.org.spboot5.telegram_bot.send_service.SendMess;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -18,11 +20,11 @@ public class Bot extends TelegramLongPollingBot {
     @Value("${bot.name}")
     private String botName;
 
-
-
+    @Autowired
+    private TelegramBotListener botListener;
     @Override
     public void onUpdateReceived(Update update) {
-        CommandBox commandBox = new CommandBox(new SendMess(this));
+        CommandBox commandBox = new CommandBox(new SendMess(this), botListener);
         if(update.hasMessage()) {
             String message = update.getMessage().getText().trim();
             if (message.startsWith("/")) {

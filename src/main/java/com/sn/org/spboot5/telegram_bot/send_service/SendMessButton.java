@@ -21,13 +21,13 @@ public class SendMessButton implements SendMessService{
     @Override
     public void send(String chatId, String mess) {
         String name=mess.trim();
-        String [] names=name.split("/");
+        String [] names=name.split("=");
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
         sendMessage.enableHtml(true);
-        String message="Say Hello!";
+        String message="Hello!";
         sendMessage.setText(message);
 
         try {
