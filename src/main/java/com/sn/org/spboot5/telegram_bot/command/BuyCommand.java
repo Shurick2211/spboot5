@@ -16,5 +16,6 @@ public class BuyCommand extends CommandPattern {
   public void execute(Message message) {
     sendMessService.send(message.getChatId().toString(), botListener.buy(
         String.valueOf(message.getChatId())));
+
   }
 }

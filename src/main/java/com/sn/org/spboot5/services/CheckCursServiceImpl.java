@@ -5,8 +5,8 @@ import com.sn.org.spboot5.models.Person;
 import com.sn.org.spboot5.telegram_bot.Bot;
 import com.sn.org.spboot5.utils.AccountState;
 import com.sn.org.spboot5.utils.Trend;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +20,7 @@ public class CheckCursServiceImpl implements CheckCursService{
   @Autowired
   private Bot bot;
 
-  private final static List<Person> persons = new ArrayList<>();
+  private final static Set<Person> persons = new HashSet<>();
 
   @Value("${stop.game.percent}")
   private double stopPercent;
@@ -96,7 +96,7 @@ public class CheckCursServiceImpl implements CheckCursService{
       buySellService.buyCoin(coin, person);
       bot.sendTelegram(person, "New player - " + person +
           "\nBuying coins BTC = " + person.getPlayAccount().getSumm()
-          + "  curs = {}" +  coin.getCurrentCurs()
+          + "  curs = " +  coin.getCurrentCurs()
       );
       person.setPlay(true);
     }
