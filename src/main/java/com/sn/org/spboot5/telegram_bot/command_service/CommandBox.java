@@ -10,6 +10,7 @@ import com.sn.org.spboot5.telegram_bot.command.CursCommand;
 import com.sn.org.spboot5.telegram_bot.command.HelpCommand;
 import com.sn.org.spboot5.telegram_bot.command.Inline;
 import com.sn.org.spboot5.telegram_bot.command.NoCommand;
+import com.sn.org.spboot5.telegram_bot.command.RegistrationCommand;
 import com.sn.org.spboot5.telegram_bot.command.SellCommand;
 import com.sn.org.spboot5.telegram_bot.command.StartCommand;
 import com.sn.org.spboot5.telegram_bot.command.StopCommand;
@@ -25,6 +26,7 @@ public class CommandBox {
     public CommandBox(SendMessService sendMessService, TelegramBotCommandListener botListener) {
         commandMap = ImmutableMap.<String, CommandPattern>builder()
                 .put(CommandName.START.getComName(), new StartCommand(sendMessService, botListener))
+                .put(CommandName.REGISTRATION.getComName(), new RegistrationCommand(sendMessService, botListener))
                 .put(CommandName.BUY.getComName(), new BuyCommand(sendMessService, botListener))
                 .put(CommandName.SELL.getComName(), new SellCommand(sendMessService, botListener))
                 .put(CommandName.CURS.getComName(), new CursCommand(sendMessService, botListener))

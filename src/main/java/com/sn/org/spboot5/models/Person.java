@@ -19,6 +19,7 @@ public class Person {
   boolean isPlay;
   private String apiKey;
   private String secretKey;
+  private int registration;
 
   @Override
   public boolean equals(Object o) {

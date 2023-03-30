@@ -2,6 +2,7 @@ package com.sn.org.spboot5.telegram_bot.command_service;
 
 public enum CommandName {
     START("/start"),
+    REGISTRATION("/registration"),
     BUY("/buy"),
     SELL("/sell"),
     CURS("/curs"),

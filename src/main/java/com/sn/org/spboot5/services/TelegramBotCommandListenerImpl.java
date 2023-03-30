@@ -39,9 +39,7 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
     }catch (NoSuchElementException e){
       person = new Person(id,summ,
           new PlayAccount(summ, 0, AccountState.FIAT, rangeCursForBuy),
-          false,
-          apiKey,
-          apiSecret);
+          false,  apiKey,  apiSecret, 5);
       CheckCursServiceImpl.subscribeToCheck(person);
       return "Start!";
     }
@@ -72,6 +70,12 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
       return "You aren't of game";
     }
   }
+
+  @Override
+  public String registration(Person person) {
+    return "Registration!";
+  }
+
   public String walletInfo(Person person) {
     return buySellServiceApi.getWallet(person);
   }
