@@ -19,7 +19,9 @@ public class StartCommand extends CommandPattern {
         String mess = "Бот BTC-USD вітає Вас!\n" +
                 "Купити/продати BTC";
         sendMessService.send(message.getChatId().toString(), mess);
-
+        mess = "/buy - Початок автоторгівлі==/sell - Продати і зупинити автоторгівлю=="
+            + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
+        message.setText(mess);
         CommandBox commandBox = new CommandBox(new SendMessButton(sendMessService.getBot()),botListener);
         commandBox.useCommand("BUTTON").execute(message);
     }

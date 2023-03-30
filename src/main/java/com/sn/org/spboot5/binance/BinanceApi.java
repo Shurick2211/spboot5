@@ -48,6 +48,7 @@ public class BinanceApi implements CursFromApi, BuySellServiceApi {
     person.getPlayAccount().setSumm(Double.parseDouble(JSONParser.getJSONStringValue(order, "executedQty")));
     person.getPlayAccount().setStartPeriodCurs(Double.parseDouble(JSONParser.getJSONStringValue(order, "price")));
     parameters.clear();
+    parameters.put("symbol","BTCUSDT");
     return Double.parseDouble(JSONParser.getJSONStringValue(order, "executedQty"));
   }
 

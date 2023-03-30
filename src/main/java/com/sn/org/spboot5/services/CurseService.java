@@ -50,8 +50,4 @@ public class CurseService {
   private double changeTrendPercent(double currentCurs, double lastCurs) {
     return lastCurs/currentCurs > 1 ? lastCurs/currentCurs - 1: 1 - lastCurs/currentCurs;
   }
-
-  public Coin getCoin() {
-    return coin;
-  }
 }

@@ -65,7 +65,12 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
 
   @Override
   public String walletInfo(String id) {
-    return buySellServiceApi.getWallet(CheckCursServiceImpl.getPersonByTelegramId(id));
+    try {
+      Person person = CheckCursServiceImpl.getPersonByTelegramId(id);
+      return walletInfo(person);
+    }catch (NoSuchElementException e) {
+      return "You aren't of game";
+    }
   }
   public String walletInfo(Person person) {
     return buySellServiceApi.getWallet(person);

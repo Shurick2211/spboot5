@@ -15,7 +15,9 @@ public class MenuButtons extends CommandPattern {
 
     @Override
     public void execute(Message message) {
-        String mess = "/buy - Початок автоторгівлі==/sell - Продати і зупинити автоторгівлю==/curs - Отримати поточний курс!";
+        String mess = message.getText();
+            //"/buy - Початок автоторгівлі==/sell - Продати і зупинити автоторгівлю=="
+           // + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
         sendMessService.send(message.getChatId().toString(), mess);
     }
 }
