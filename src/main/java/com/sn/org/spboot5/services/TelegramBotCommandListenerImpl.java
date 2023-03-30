@@ -48,7 +48,9 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   public String walletInfo(String id) {
     return buySellServiceApi.getWallet(CheckCursServiceImpl.getPersonByTelegramId(id));
   }
-
+  public String walletInfo(Person person) {
+    return buySellServiceApi.getWallet(person);
+  }
 
 
 }

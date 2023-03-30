@@ -73,7 +73,7 @@ public class CheckCursServiceImpl implements CheckCursService{
      // person.setPlay(false);
     } else {
       log.info("WAIT...");
-      bot.sendTelegram(person, "Wait...");
+      //bot.sendTelegram(person, "Wait...");
     }
   }
 
