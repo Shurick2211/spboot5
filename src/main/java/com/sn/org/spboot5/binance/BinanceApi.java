@@ -47,6 +47,7 @@ public class BinanceApi implements CursFromApi, BuySellServiceApi {
     String order = clientPerson.createTrade().getOrder(parameters);
     person.getPlayAccount().setSumm(Double.parseDouble(JSONParser.getJSONStringValue(order, "executedQty")));
     person.getPlayAccount().setStartPeriodCurs(Double.parseDouble(JSONParser.getJSONStringValue(order, "price")));
+    parameters.clear();
     return Double.parseDouble(JSONParser.getJSONStringValue(order, "executedQty"));
   }
 
@@ -54,7 +55,10 @@ public class BinanceApi implements CursFromApi, BuySellServiceApi {
   public  String getWallet(Person person) {
     SpotClient clientPerson = new SpotClientImpl(person.getApiKey(), person.getSecretKey());
     parameters.put("type","SPOT");
-    log.info(clientPerson.createWallet().accountStatus(parameters));
-    return "";
+    String res = clientPerson.createWallet().fundingWallet(parameters);
+    log.info(res);
+    parameters.clear();
+    parameters.put("symbol","BTCUSDT");
+    return res;
   }
 }

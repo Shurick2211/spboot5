@@ -51,5 +51,7 @@ public class CurseService {
     return lastCurs/currentCurs > 1 ? lastCurs/currentCurs - 1: 1 - lastCurs/currentCurs;
   }
 
-
+  public Coin getCoin() {
+    return coin;
+  }
 }

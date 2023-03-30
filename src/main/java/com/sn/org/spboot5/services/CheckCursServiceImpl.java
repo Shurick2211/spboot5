@@ -54,8 +54,8 @@ public class CheckCursServiceImpl implements CheckCursService{
         if (person.getPlayAccount().getAccState() == AccountState.COIN) {
           if (isPrize(person, coin)) {
             log.info("Winn FIAT Summ = {} ", buySellService.sellCoin(coin, person));
+            stopGameForMax(person);
             bot.sendTelegram(person,"Sell coins BTC = " + person.getPlayAccount().getSumm() + "  curs = " + coin.getCurrentCurs());
-            stopGame(person);
           } else {
             savePoint(person, coin);
           }
@@ -94,7 +94,7 @@ public class CheckCursServiceImpl implements CheckCursService{
     if (!person.isPlay()) {
       log.info("New player - {}", person);
       buySellService.buyCoin(coin, person);
-      bot.sendTelegram(person, "New player - " + person +
+      bot.sendTelegram(person, "New player - " + person.getTelegramId() +
           "\nBuying coins BTC = " + person.getPlayAccount().getSumm()
           + "  curs = " +  coin.getCurrentCurs()
       );
@@ -102,16 +102,21 @@ public class CheckCursServiceImpl implements CheckCursService{
     }
   }
 
-  private void stopGame(Person person) {
+  private void stopGameForMax(Person person) {
     if (person.getPlayAccount().getAccState() == AccountState.FIAT
         && person.getStartSummFiat() * (1 + stopPercent / 100) < person.getPlayAccount().getSumm()) {
+      stopGame(person);
+    }
+  }
+
+  public static boolean stopGame(Person person) {
       if (persons.remove(person)) {
         person.setStartSummFiat(person.getPlayAccount().getSumm());
         person.setPlay(false);
         log.info("STOP game {}", person);
-        bot.sendTelegram(person, "STOP game {}" + person);
+        return true;
       }
-    }
+      return false;
   }
 
   public static void subscribeToCheck(Person person){
@@ -119,6 +124,6 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   public static Person getPersonByTelegramId(String telegramId) {
-    return persons.stream().dropWhile(person -> person.getTelegramId().equals(telegramId)).findFirst().orElseThrow();
+    return persons.stream().filter(person -> person.getTelegramId().equals(telegramId)).findFirst().orElseThrow();
   }
 }
