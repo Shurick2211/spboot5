@@ -5,6 +5,7 @@ public enum CommandName {
     BUY("/buy"),
     SELL("/sell"),
     CURS("/curs"),
+    INFO("/info"),
     HELP("/help"),
     BUTTON("BUTTON"),
     INLINE("/inline"),

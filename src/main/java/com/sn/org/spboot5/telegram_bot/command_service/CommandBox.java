@@ -4,6 +4,7 @@ package com.sn.org.spboot5.telegram_bot.command_service;
 import com.google.common.collect.ImmutableMap;
 import com.sn.org.spboot5.services.TelegramBotCommandListener;
 import com.sn.org.spboot5.telegram_bot.command.BuyCommand;
+import com.sn.org.spboot5.telegram_bot.command.InfoPersonCommand;
 import com.sn.org.spboot5.telegram_bot.command.MenuButtons;
 import com.sn.org.spboot5.telegram_bot.command.CursCommand;
 import com.sn.org.spboot5.telegram_bot.command.HelpCommand;
@@ -27,6 +28,7 @@ public class CommandBox {
                 .put(CommandName.BUY.getComName(), new BuyCommand(sendMessService, botListener))
                 .put(CommandName.SELL.getComName(), new SellCommand(sendMessService, botListener))
                 .put(CommandName.CURS.getComName(), new CursCommand(sendMessService, botListener))
+                .put(CommandName.INFO.getComName(), new InfoPersonCommand(sendMessService, botListener))
                 .put(CommandName.HELP.getComName(), new HelpCommand(sendMessService, botListener))
                 .put(CommandName.NO.getComName(), new NoCommand(sendMessService, botListener))
                 .put(CommandName.BUTTON.getComName(), new MenuButtons(sendMessService, botListener))

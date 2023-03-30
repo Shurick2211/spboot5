@@ -14,6 +14,11 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   @Value("${range.prize.curs.percent}")
   private double rangeCursForBuy;
 
+  @Value("${api.key}")
+  private String apiKey;
+  @Value("${api.secret}")
+  private String apiSecret;
+
   @Autowired
   private BuySellServiceApi buySellServiceApi;
   @Autowired
@@ -24,8 +29,8 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
     CheckCursServiceImpl.subscribeToCheck(new Person(id,summ,
         new PlayAccount(summ, 0, AccountState.FIAT, rangeCursForBuy),
         false,
-        " ",
-        " "));
+        apiKey,
+        apiSecret));
     return "Start!";
   }
 
@@ -40,9 +45,10 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   }
 
   @Override
-  public String accountInfo(String id) {
-    return "bla-bla";
+  public String walletInfo(String id) {
+    return buySellServiceApi.getWallet(CheckCursServiceImpl.getPersonByTelegramId(id));
   }
+
 
 
 }

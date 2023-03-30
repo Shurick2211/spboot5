@@ -117,4 +117,8 @@ public class CheckCursServiceImpl implements CheckCursService{
   public static void subscribeToCheck(Person person){
     persons.add(person);
   }
+
+  public static Person getPersonByTelegramId(String telegramId) {
+    return persons.stream().dropWhile(person -> person.getTelegramId().equals(telegramId)).findFirst().orElseThrow();
+  }
 }
