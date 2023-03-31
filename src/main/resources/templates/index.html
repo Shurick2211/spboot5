@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<p>Hello Telega!</p>
+<script>
+  let tg = window.Telegram.WebApp;
+  function webviewClose() {
+    tg.close();
+  }
+  tg.MainButton
+  .setcolor('#2cab37')
+  .setTextColor('#FFFFFF')
+  .setText('CLOSE WEBVIEW')
+  .show()
+  .onClick(function () {
+    webviewClose();
+  });
+</script>
+</body>
+</html>

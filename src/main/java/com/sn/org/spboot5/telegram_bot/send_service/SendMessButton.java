@@ -8,6 +8,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.meta.api.objects.webapp.WebAppData;
+import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Slf4j
 public class SendMessButton implements SendMessService{
@@ -54,8 +56,15 @@ public class SendMessButton implements SendMessService{
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardRow;
             for (String name:names){
+                KeyboardButton button;
+                if (name.startsWith("/registration")){
+                     button = new KeyboardButton(name);
+                     button.setWebApp(WebAppInfo.builder().url("https://shurick2211.github.io/telega-web-app/").build());
+                } else{
+                    button = new KeyboardButton(name);
+                }
                 keyboardRow = new KeyboardRow();
-                keyboardRow.add(new KeyboardButton(name));
+                keyboardRow.add(button);
                 keyboard.add(keyboardRow);
             }
 
