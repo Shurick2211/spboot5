@@ -55,20 +55,27 @@ public class SendMessButton implements SendMessService{
 
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardRow;
+        KeyboardButton button;
             for (String name:names){
-                KeyboardButton button;
                 if (name.startsWith("/registration")){
                      button = new KeyboardButton(name);
                      button.setWebApp(WebAppInfo.builder().url("https://shurick2211.github.io/telega-web-app/").build());
                 } else{
                     button = new KeyboardButton(name);
                 }
-                keyboardRow = new KeyboardRow();
-                keyboardRow.add(button);
-                keyboard.add(keyboardRow);
+                newKeyboardRowWithButton(keyboard, button);
             }
+        button = new KeyboardButton("Binance");
+        button.setWebApp(WebAppInfo.builder().url("https://www.binance.com/ru-UA/trade/BTC_USDT?theme=dark&type=spot").build());
+        newKeyboardRowWithButton(keyboard, button);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+
+    private void newKeyboardRowWithButton(List<KeyboardRow> keyboard, KeyboardButton button) {
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add(button);
+        keyboard.add(keyboardRow);
     }
 
 
