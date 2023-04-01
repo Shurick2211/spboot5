@@ -34,6 +34,7 @@ public class Bot extends TelegramLongPollingBot  {
                 commandBox.useCommand(CommandName.NO.name()).execute(update.getMessage());
             }
         }
+        log.info(update.getMessage().toString());
 
     }
 
