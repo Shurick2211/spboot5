@@ -1,24 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-<p>Hello Telega!</p>
+<p id="tegP">Hello Telega!</p>
+<button id="ok" onclick="clickOK()">OK</button>
 <script>
   let tg = window.Telegram.WebApp;
+  tg.ready();
+    var initData = tg.initData || '';
+    var initDataUnsafe = tg.initDataUnsafe || {};
+
   function webviewClose() {
     tg.close();
   }
-  tg.MainButton
-  .setcolor('#2cab37')
-  .setTextColor('#FFFFFF')
-  .setText('CLOSE WEBVIEW')
-  .show()
-  .onClick(function () {
-    webviewClose();
-  });
+
+  function clickOK() {
+    let p = document.getElementById("tegP");
+    p.value="Ha-ha!";
+  }
+
+  tg.MainButton.isVisible=true;
+  tg.MainButton.text='MainButton';
+  tg.MainButton.color='#2cab37';
+  tg.MainButton.textColor='#FFFFFF';
+  tg.MainButton.show();
+  tg.MainButton.onClick(webviewClose);
+
+
+
+
 </script>
 </body>
 </html>

@@ -57,7 +57,7 @@ public class SendMessButton implements SendMessService{
         KeyboardRow keyboardRow;
         KeyboardButton button;
             for (String name:names){
-                if (name.startsWith("/registration")){
+                if (name.startsWith("Регістрація!")){
                      button = new KeyboardButton(name);
                      button.setWebApp(WebAppInfo.builder().url("https://shurick2211.github.io/telega-web-app/").build());
                 } else{

@@ -20,7 +20,7 @@ public class StartCommand extends CommandPattern {
             + "Купити/продати BTC на Binance в автоматичному режимі!\n"
             + "Для цього пройдіть регістрацію!";
         sendMessService.send(message.getChatId().toString(), mess);
-        mess = "/registration - Регістрація!"
+        mess = "Регістрація!"
             + "==/curs - Отримати поточний курс!";
         message.setText(mess);
         CommandBox commandBox = new CommandBox(new SendMessButton(sendMessService.getBot()),botListener);
