@@ -6,9 +6,9 @@
 </head>
 <body>
 <h3 >Api key!</h3>
-<input type="text" id="in1">
+<input type="text" id="key">
 <h3 >Api secret!</h3>
-<input type="text" id="in2">
+<input type="text" id="secret">
 <p id="pteg">Hello user! </p>
 <button id="ok" onclick="clickOK()">OK</button>
 <script>
@@ -27,26 +27,40 @@
     api_key;
     api_secret;
   }
-  function clickOK() {
-    const disp = document.getElementById("pteg");
-    const input1 = document.getElementById("in1");
-    const input2 = document.getElementById("in2");
-    const resp = new Resp();
-    resp.api_key = input1.value.toString();
-    resp.api_secret = input2.value.toString();
-    response = JSON.stringify(resp);
-    disp.innerText = response;
+
+  let key = document.getElementById("key");
+  let secret = document.getElementById("secret");
+  let isKey = false;
+  let isSecret = false;
+
+  function keyIsNotEmpty(e){
+    if (e.target.value !== null &&
+    e.target.value !=="" ) isKey = true;
+  }
+  function secretIsNotEmpty(e){
+    if ((e.target.value !== null &&
+            e.target.value !=="") && isKey) isSecret = true;
   }
 
-  tg.MainButton.isVisible=true;
-  tg.MainButton.text='MainButton';
+  function clickOK() {
+    if (isSecret && isKey) {
+      const disp = document.getElementById("pteg");
+      const resp = new Resp();
+      resp.api_key = key.value.toString();
+      resp.api_secret = secret.value.toString();
+      response = JSON.stringify(resp);
+      disp.innerText = response;
+      tg.MainButton.show();
+    }
+  }
+
+  tg.MainButton.text='Registration';
   tg.MainButton.color='#2cab37';
   tg.MainButton.textColor='#FFFFFF';
-  tg.MainButton.show();
   tg.MainButton.onClick(webviewClose);
 
-
-
+  key.addEventListener("focusout", keyIsNotEmpty);
+  secret.addEventListener("focusout", secretIsNotEmpty);
 
 </script>
 </body>
