@@ -1,6 +1,7 @@
 package com.sn.org.spboot5.telegram_bot;
 
 
+import com.binance.connector.client.utils.JSONParser;
 import com.sn.org.spboot5.models.Person;
 import com.sn.org.spboot5.services.TelegramBotCommandListener;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandBox;
@@ -25,7 +26,7 @@ public class Bot extends TelegramLongPollingBot  {
     @Override
     public void onUpdateReceived(Update update) {
         CommandBox commandBox = new CommandBox(new SendMess(this), botListener);
-        if(update.hasMessage()) {
+        if(update.hasMessage() && update.getMessage().getWebAppData() == null) {
             String message = update.getMessage().getText().trim();
             if (message.startsWith("/")) {
                 String identification = message.split(" ")[0].toLowerCase();
@@ -33,8 +34,17 @@ public class Bot extends TelegramLongPollingBot  {
             } else {
                 commandBox.useCommand(CommandName.NO.name()).execute(update.getMessage());
             }
+        } else {
+            String json = update.getMessage().getWebAppData().getData();
+            log.info("chatId = {}, data = {}",update.getMessage().getChatId(),
+                    json);
+            Person person = new Person();
+            person.setTelegramId(String.valueOf(update.getMessage().getChatId()));
+            person.setApiKey(JSONParser.getJSONStringValue(json, "api_key"));
+            person.setSecretKey(JSONParser.getJSONStringValue(json, "api_secret"));
+            sendTelegram(person, person.toString());
         }
-        log.info(update.getMessage().toString());
+
 
     }
 

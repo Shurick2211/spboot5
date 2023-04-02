@@ -9,26 +9,33 @@
 <input type="text" id="in1">
 <h3 >Api secret!</h3>
 <input type="text" id="in2">
-<p id="pteg">Hello user!</p>
+<p id="pteg">Hello user! </p>
 <button id="ok" onclick="clickOK()">OK</button>
 <script>
-  let tg = window.Telegram.WebApp;
+
+  const tg = window.Telegram.WebApp;
   let response;
   tg.ready();
     var initData = tg.initData || '';
     var initDataUnsafe = tg.initDataUnsafe || {};
 
-  function webviewClose() {
-    tg.sendData(response);
-    tg.close();
-  }
 
+  function webviewClose() {
+    tg.sendData(response.toString());
+  }
+  class Resp{
+    api_key;
+    api_secret;
+  }
   function clickOK() {
-    let hh = document.getElementById("pteg");
-    var input1 = document.getElementById("in1");
-    var input2 = document.getElementById("in2");
-    response = input1 + input2;
-    hh.innerText=initData.toString();
+    const disp = document.getElementById("pteg");
+    const input1 = document.getElementById("in1");
+    const input2 = document.getElementById("in2");
+    const resp = new Resp();
+    resp.api_key = input1.value.toString();
+    resp.api_secret = input2.value.toString();
+    response = JSON.stringify(resp);
+    disp.innerText = response;
   }
 
   tg.MainButton.isVisible=true;
