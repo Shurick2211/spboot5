@@ -14,22 +14,23 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class TelegramBotCommandListenerImpl implements TelegramBotCommandListener {
+
+  //Temporary test data start<
   @Value("${start.summ.fiat}")
   private double summ;
   @Value("${range.prize.curs.percent}")
   private double rangeCursForBuy;
-
   @Value("${api.key}")
   private String apiKey;
   @Value("${api.secret}")
   private String apiSecret;
-
   @Autowired
   private BuySellService buySellService;
+  // >end Temporary test data
+
+
   @Autowired
   private BuySellServiceApi buySellServiceApi;
-  @Autowired
-  private CursFromApi cursFromApi;
 
   private final Set<Person> registrationPersons  =  new HashSet<>();
 
@@ -75,7 +76,7 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
 
   @Override
   public String curs(String id) {
-    return cursFromApi.getCurs()+"";
+    return buySellServiceApi.getCurs()+"";
   }
 
   @Override
@@ -90,9 +91,11 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
 
   @Override
   public String registration(Person person) {
+    //Temporary person
     person = new Person(person.getTelegramId(), summ,
         new PlayAccount(summ, 0, AccountState.FIAT, rangeCursForBuy),
-        false,  apiKey,  apiSecret, 5);
+          apiKey,  apiSecret);
+
     registrationPersons.add(person);
     return "Registration!";
   }

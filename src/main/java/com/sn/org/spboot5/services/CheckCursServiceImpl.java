@@ -89,19 +89,6 @@ public class CheckCursServiceImpl implements CheckCursService{
     return prizePercent > person.getPlayAccount().getRangePrizeCursInPercent();
   }
 
-  @Deprecated
-  private void newPerson(Person person, Coin coin) {
-    if (!person.isPlay()) {
-      log.info("New player - {}", person);
-      buySellService.buyCoin(person);
-      bot.sendTelegram(person, "New player - " + person.getTelegramId() +
-          "\nBuying coins BTC = " + person.getPlayAccount().getSumm()
-          + "  curs = " +  coin.getCurrentCurs()
-      );
-      person.setPlay(true);
-    }
-  }
-
   private void stopGameForMax(Person person) {
     if (person.getPlayAccount().getAccState() == AccountState.FIAT
         && person.getStartSummFiat() * (1 + stopPercent / 100) < person.getPlayAccount().getSumm()) {
@@ -111,7 +98,6 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   public static boolean stopGame(Person person) {
       if (persons.remove(person)) {
-        person.setPlay(false);
         log.info("STOP game {}", person);
         return true;
       }

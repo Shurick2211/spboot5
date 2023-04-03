@@ -16,10 +16,8 @@ public class Person {
   private String telegramId;
   private double startSummFiat;
   private PlayAccount playAccount;
-  boolean isPlay;
   private String apiKey;
   private String secretKey;
-  private int registration;
 
   @Override
   public boolean equals(Object o) {
