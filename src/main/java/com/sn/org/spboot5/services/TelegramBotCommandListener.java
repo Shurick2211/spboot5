@@ -9,4 +9,6 @@ public interface TelegramBotCommandListener {
   String curs(String id);
   String walletInfo(String id);
   String registration(Person person);
+
+  void stopBot(String id);
 }

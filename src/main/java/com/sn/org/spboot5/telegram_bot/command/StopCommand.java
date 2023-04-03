@@ -16,9 +16,9 @@ public class StopCommand extends CommandPattern {
 
     @Override
     public void execute(Message message) {
+        botListener.stopBot(String.valueOf(message.getChatId()));
         String mess = "Зупинка Бота!";
         sendMessService.send(message.getChatId().toString(), mess);
         log.warn("Bot was stopped!");
-        System.exit(0);
     }
 }

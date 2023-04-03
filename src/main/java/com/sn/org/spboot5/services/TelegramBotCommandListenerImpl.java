@@ -100,6 +100,16 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
     return "Registration!";
   }
 
+  @Override
+  public void stopBot(String id) {
+    try {
+      Person person = CheckCursServiceImpl.getPersonByTelegramId(id);
+      registrationPersons.remove(person);
+    }catch (NoSuchElementException e) {
+     log.warn(e.getMessage());
+    }
+  }
+
   public String walletInfo(Person person) {
     return buySellServiceApi.getWallet(person);
   }
