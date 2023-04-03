@@ -6,14 +6,13 @@ import com.binance.connector.client.impl.SpotClientImpl;
 import com.binance.connector.client.utils.JSONParser;
 import com.sn.org.spboot5.models.Person;
 import com.sn.org.spboot5.services.BuySellServiceApi;
-import com.sn.org.spboot5.services.CursFromApi;
 import java.util.LinkedHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class BinanceApi implements CursFromApi, BuySellServiceApi {
+public class BinanceApi implements BuySellServiceApi {
 
   private final SpotClient clientForCurs = new SpotClientImpl();
 

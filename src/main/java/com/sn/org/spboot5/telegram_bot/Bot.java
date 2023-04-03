@@ -37,20 +37,7 @@ public class Bot extends TelegramLongPollingBot  {
                 commandBox.useCommand(CommandName.NO.name()).execute(update.getMessage());
             }
         } else {
-            String json = update.getMessage().getWebAppData().getData();
-            log.info("chatId = {}, data = {}",update.getMessage().getChatId(),
-                    json);
-            Person person = new Person();
-            person.setTelegramId(String.valueOf(update.getMessage().getChatId()));
-            person.setApiKey(JSONParser.getJSONStringValue(json, "api_key"));
-            person.setSecretKey(JSONParser.getJSONStringValue(json, "api_secret"));
-            String mess = person
-                + "=/=/buy - Початок автоторгівлі==/sell - Продати і зупинити автоторгівлю=="
-                + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
-            Message message = update.getMessage();
-            message.setText(mess);
-            commandBox = new CommandBox(new SendMessButton(this), botListener);
-            commandBox.useCommand(CommandName.BUTTON.name()).execute(message);
+           newPerson(update);
         }
 
 
@@ -69,5 +56,23 @@ public class Bot extends TelegramLongPollingBot  {
 
     public void sendTelegram(Person person, String mess) {
         new SendMess(this).send(person.getTelegramId(),mess);
+    }
+
+    private void newPerson(Update update) {
+        String json = update.getMessage().getWebAppData().getData();
+        log.info("chatId = {}, data = {}",update.getMessage().getChatId(),
+            json);
+        Person person = new Person();
+        person.setTelegramId(String.valueOf(update.getMessage().getChatId()));
+        person.setApiKey(JSONParser.getJSONStringValue(json, "api_key"));
+        person.setSecretKey(JSONParser.getJSONStringValue(json, "api_secret"));
+        botListener.registration(person);
+        String mess = person
+            + "=/=/buy - Початок автоторгівлі (Купити BTC)==/sell - Продати BTC зараз=="
+            + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
+        Message message = update.getMessage();
+        message.setText(mess);
+        CommandBox commandBox = new CommandBox(new SendMessButton(this), botListener);
+        commandBox.useCommand(CommandName.BUTTON.name()).execute(message);
     }
 }

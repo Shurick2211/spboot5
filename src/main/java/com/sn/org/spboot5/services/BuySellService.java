@@ -14,12 +14,15 @@ import org.springframework.stereotype.Service;
 public class BuySellService {
 
   private final BuySellServiceApi buySellServiceApi;
+
   @Autowired
   public BuySellService(BuySellServiceApi buySellServiceApi) {
     this.buySellServiceApi = buySellServiceApi;
   }
 
-  public double buyCoin(Coin coin, Person person) {
+  public double buyCoin(Person person) {
+    Coin coin = new Coin();
+    coin.setCurrentCurs(buySellServiceApi.getCurs());
     if (person.getPlayAccount().getAccState() == AccountState.FIAT) {
       person.getPlayAccount().setAccState(AccountState.COIN);
       //buySellServiceApi.buyCoin(person);
@@ -31,7 +34,9 @@ public class BuySellService {
   }
 
 
-  public double sellCoin(Coin coin, Person person) {
+  public double sellCoin( Person person) {
+    Coin coin = new Coin();
+    coin.setCurrentCurs(buySellServiceApi.getCurs());
     if (person.getPlayAccount().getAccState() == AccountState.COIN) {
       person.getPlayAccount().setAccState(AccountState.FIAT);
       //buySellServiceApi.sellCoin(person);

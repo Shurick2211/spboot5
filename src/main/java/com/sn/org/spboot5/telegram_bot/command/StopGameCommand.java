@@ -7,10 +7,10 @@ import com.sn.org.spboot5.telegram_bot.send_service.SendMessButton;
 import com.sn.org.spboot5.telegram_bot.send_service.SendMessService;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-public class RegistrationCommand extends CommandPattern {
+public class StopGameCommand extends CommandPattern {
 
 
-    public RegistrationCommand(SendMessService sendMessService, TelegramBotCommandListener botListener) {
+    public StopGameCommand(SendMessService sendMessService, TelegramBotCommandListener botListener) {
         super(sendMessService, botListener);
         this.sendMessService = new SendMessButton(sendMessService.getBot());
     }
@@ -18,7 +18,7 @@ public class RegistrationCommand extends CommandPattern {
     @Override
     public void execute(Message message) {
         String mess = message.getText()
-            + "=/=/buy - Початок автоторгівлі==/sell - Продати і зупинити автоторгівлю=="
+            + "=/=/buy - Початок автоторгівлі==/sell - Продати зараз=="
             + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
         message.setText(mess);
         sendMessService.send(message.getChatId().toString(), mess);

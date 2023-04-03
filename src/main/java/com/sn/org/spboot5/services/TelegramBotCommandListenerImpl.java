@@ -47,13 +47,23 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
 
   @Override
   public String sell(String id) {
+    try {
     Person person = CheckCursServiceImpl.getPersonByTelegramId(id);
-
-    log.info("Stop Game Sell FIAT Summ = {} ", summ);
-    if (CheckCursServiceImpl.stopGame(person)) {
-      return "Stop Game Sell FIAT Summ = " + person.getPlayAccount().getSumm();
+    log.info("Sell FIAT Summ = {} ", buySellService.sellCoin(person));
+    return "Sell FIAT Summ = " + person.getPlayAccount().getSumm();
+    }catch (NoSuchElementException e) {
+      return "You aren't of game";
     }
-    return "Tyt sell";
+  }
+
+  @Override
+  public String stopGame(String id) {
+    Person person = CheckCursServiceImpl.getPersonByTelegramId(id);
+    log.info("Stop Game {} Summ = {} ", person.getPlayAccount().getAccState().name(), person.getPlayAccount().getSumm());
+    if (CheckCursServiceImpl.stopGame(person)) {
+      return "Stop Game " + person.getPlayAccount().getAccState().name() + " Summ = " + person.getPlayAccount().getSumm();
+    }
+    return "Stop Problem!";
   }
 
   @Override
@@ -73,6 +83,8 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
 
   @Override
   public String registration(Person person) {
+
+
     return "Registration!";
   }
 

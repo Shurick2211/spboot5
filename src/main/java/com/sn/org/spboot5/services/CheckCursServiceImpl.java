@@ -44,7 +44,7 @@ public class CheckCursServiceImpl implements CheckCursService{
       if (coin.isChangedTrend()) {
         log.info(coin.toString());
         if (isNoBad(person, coin) && person.getPlayAccount().getAccState() == AccountState.FIAT){
-          log.info("BTC Summ = {} ", buySellService.buyCoin(coin, person));
+          log.info("BTC Summ = {} ", buySellService.buyCoin(person));
           bot.sendTelegram(person,"Buying coins BTC = " + person.getPlayAccount().getSumm() + "  curs = " + coin.getCurrentCurs());
         }
       }
@@ -53,7 +53,7 @@ public class CheckCursServiceImpl implements CheckCursService{
         log.info(coin.toString());
         if (person.getPlayAccount().getAccState() == AccountState.COIN) {
           if (isPrize(person, coin)) {
-            log.info("Winn FIAT Summ = {} ", buySellService.sellCoin(coin, person));
+            log.info("Winn FIAT Summ = {} ", buySellService.sellCoin(person));
             stopGameForMax(person);
             bot.sendTelegram(person,"Sell coins BTC = " + person.getPlayAccount().getSumm() + "  curs = " + coin.getCurrentCurs());
           } else {
@@ -69,7 +69,7 @@ public class CheckCursServiceImpl implements CheckCursService{
         && person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
       bot.sendTelegram(person, "Save FIAT Summ = {}" + person.getStartSummFiat());
-      person.setStartSummFiat(buySellService.sellCoin(coin, person));
+      person.setStartSummFiat(buySellService.sellCoin(person));
      // person.setPlay(false);
     } else {
       log.info("WAIT...");
@@ -93,7 +93,7 @@ public class CheckCursServiceImpl implements CheckCursService{
   private void newPerson(Person person, Coin coin) {
     if (!person.isPlay()) {
       log.info("New player - {}", person);
-      buySellService.buyCoin(coin, person);
+      buySellService.buyCoin(person);
       bot.sendTelegram(person, "New player - " + person.getTelegramId() +
           "\nBuying coins BTC = " + person.getPlayAccount().getSumm()
           + "  curs = " +  coin.getCurrentCurs()
@@ -111,7 +111,6 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   public static boolean stopGame(Person person) {
       if (persons.remove(person)) {
-        person.setStartSummFiat(person.getPlayAccount().getSumm());
         person.setPlay(false);
         log.info("STOP game {}", person);
         return true;
