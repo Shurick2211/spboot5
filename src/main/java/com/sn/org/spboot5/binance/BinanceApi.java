@@ -8,6 +8,7 @@ import com.sn.org.spboot5.models.Person;
 import com.sn.org.spboot5.services.BuySellServiceApi;
 import java.util.LinkedHashMap;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class BinanceApi implements BuySellServiceApi {
 
   @Override
   public double getCurs() {
-    parameters.put("symbol","BTCUSDT");
+    clearsParam();
     return Double.parseDouble(JSONParser.getJSONStringValue(clientForCurs.createMarket().tickerSymbol(parameters),"price"));
   }
 
@@ -46,8 +47,7 @@ public class BinanceApi implements BuySellServiceApi {
     String order = clientPerson.createTrade().getOrder(parameters);
     person.getPlayAccount().setSumm(Double.parseDouble(JSONParser.getJSONStringValue(order, "executedQty")));
     person.getPlayAccount().setStartPeriodCurs(Double.parseDouble(JSONParser.getJSONStringValue(order, "price")));
-    parameters.clear();
-    parameters.put("symbol","BTCUSDT");
+    clearsParam();
     return Double.parseDouble(JSONParser.getJSONStringValue(order, "executedQty"));
   }
 
@@ -56,9 +56,22 @@ public class BinanceApi implements BuySellServiceApi {
     SpotClient clientPerson = new SpotClientImpl(person.getApiKey(), person.getSecretKey());
     parameters.put("type","SPOT");
     String res = clientPerson.createWallet().fundingWallet(parameters);
-    log.info(res);
+    JSONArray results = new JSONArray(res);
+    res = "";
+    for (Object r: results) {
+      log.info("{} = {}", JSONParser.getJSONStringValue( r.toString(), "asset"),
+          JSONParser.getJSONStringValue( r.toString(), "free"));
+      res += JSONParser.getJSONStringValue( r.toString(), "asset")
+          + " = "
+          + JSONParser.getJSONStringValue( r.toString(), "free")
+          + "\n";
+    }
+    clearsParam();
+    return res;
+  }
+
+  private void clearsParam() {
     parameters.clear();
     parameters.put("symbol","BTCUSDT");
-    return res;
   }
 }

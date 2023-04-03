@@ -38,12 +38,19 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   @Override
   public String buy(String id) {
     try {
-      Person person = registrationPersons.stream().filter(p -> p.getTelegramId().equals(id)).findFirst().orElseThrow();
-      buySellService.buyCoin(person);
+      Person person = registrationPersons.stream()
+          .filter(p -> p.getTelegramId().equals(id)).findFirst().orElseThrow();
       CheckCursServiceImpl.subscribeToCheck(person);
-      return  "New player - " + person.getTelegramId() +
-          "\nBuying coins BTC = " + person.getPlayAccount().getSumm()
-          + "  curs = " +  person.getPlayAccount().getStartPeriodCurs();
+      if (person.getPlayAccount().getAccState() == AccountState.FIAT) {
+        buySellService.buyCoin(person);
+        return  "New player - " + person.getTelegramId() +
+            "\nBuying coins BTC = " + person.getPlayAccount().getSumm()
+            + "  curs = " +  person.getPlayAccount().getStartPeriodCurs();
+      } else {
+        return "You have " + person.getPlayAccount().getAccState().name()
+            + " summ = " + person.getPlayAccount().getSumm();
+      }
+
     } catch (NoSuchElementException e){
       return "You are not registration!";
     }
@@ -53,8 +60,13 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   public String sell(String id) {
     try {
     Person person = CheckCursServiceImpl.getPersonByTelegramId(id);
-    log.info("Sell FIAT Summ = {} ", buySellService.sellCoin(person));
-    return "Sell FIAT Summ = " + person.getPlayAccount().getSumm();
+    if (person.getPlayAccount().getAccState() == AccountState.COIN) {
+      log.info("Sell FIAT Summ = {} ", buySellService.sellCoin(person));
+      return "Sell FIAT Summ = " + person.getPlayAccount().getSumm();
+    } else {
+      return "You have " + person.getPlayAccount().getAccState().name()
+          + " summ = " + person.getPlayAccount().getSumm();
+    }
     }catch (NoSuchElementException e) {
       return "You aren't of game";
     }
@@ -64,9 +76,11 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   public String stopGame(String id) {
     try {
       Person person = CheckCursServiceImpl.getPersonByTelegramId(id);
-      log.info("Stop Game {} Summ = {} ", person.getPlayAccount().getAccState().name(), person.getPlayAccount().getSumm());
+      log.info("Stop Game {} Summ = {} ", person.getPlayAccount().getAccState().name()
+          , person.getPlayAccount().getSumm());
       if (CheckCursServiceImpl.stopGame(person)) {
-        return "Stop Game " + person.getPlayAccount().getAccState().name() + " Summ = " + person.getPlayAccount().getSumm();
+        return "Stop Game " + person.getPlayAccount().getAccState().name()
+            + " Summ = " + person.getPlayAccount().getSumm();
       }
     }catch (NoSuchElementException e) {
       return "You aren't of game";
@@ -82,10 +96,11 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   @Override
   public String walletInfo(String id) {
     try {
-      Person person = CheckCursServiceImpl.getPersonByTelegramId(id);
+      Person person = registrationPersons.stream()
+          .filter(p -> p.getTelegramId().equals(id)).findFirst().orElseThrow();
       return walletInfo(person);
     }catch (NoSuchElementException e) {
-      return "You aren't of game";
+      return "You aren't registration!";
     }
   }
 

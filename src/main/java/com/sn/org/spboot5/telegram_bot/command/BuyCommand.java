@@ -16,7 +16,9 @@ public class BuyCommand extends CommandPattern {
 
   @Override
   public void execute(Message message) {
-    String mess = botListener.buy(String.valueOf(message.getChatId())) + "=/=/sell - Продати зараз=="
+    String mess = botListener.buy(String.valueOf(message.getChatId()))
+        + "=/=/buy - Купити зараз BTC!=="
+        + "/sell - Продати зараз BTC!=="
         + "/stop_game - Зупинити авто торгівлю=="
         + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
     sendMessService.send(message.getChatId().toString(), mess);
