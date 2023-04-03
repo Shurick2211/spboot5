@@ -6,7 +6,7 @@ import com.sn.org.spboot5.telegram_bot.send_service.SendMessService;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 public abstract class CommandPattern {
-    protected final SendMessService sendMessService;
+    protected SendMessService sendMessService;
     protected final TelegramBotCommandListener botListener;
 
     public CommandPattern(SendMessService sendMessService, TelegramBotCommandListener botListener) {

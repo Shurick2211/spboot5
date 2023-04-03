@@ -8,7 +8,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import org.telegram.telegrambots.meta.api.objects.webapp.WebAppData;
 import org.telegram.telegrambots.meta.api.objects.webapp.WebAppInfo;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Slf4j
@@ -23,14 +22,13 @@ public class SendMessButton implements SendMessService{
     @Override
     public void send(String chatId, String mess) {
         String name=mess.trim();
-        String [] names=name.split("==");
-
+        String [] btn=name.split("=/=");
+        String [] names=btn[1].split("==");
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableMarkdown(true);
         sendMessage.enableHtml(true);
-        String message="Керування кнопкaми нижче!";
-        sendMessage.setText(message);
+        sendMessage.setText(btn[0]);
 
         try {
             setButtons(sendMessage, names);
@@ -54,7 +52,7 @@ public class SendMessButton implements SendMessService{
         replyKeyboardMarkup.setOneTimeKeyboard(false);
 
         List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardRow;
+
         KeyboardButton button;
             for (String name:names){
                 if (name.startsWith("Регістрація!")){

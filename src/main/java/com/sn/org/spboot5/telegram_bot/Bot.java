@@ -7,11 +7,13 @@ import com.sn.org.spboot5.services.TelegramBotCommandListener;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandBox;
 import com.sn.org.spboot5.telegram_bot.command_service.CommandName;
 import com.sn.org.spboot5.telegram_bot.send_service.SendMess;
+import com.sn.org.spboot5.telegram_bot.send_service.SendMessButton;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @Component
@@ -42,7 +44,13 @@ public class Bot extends TelegramLongPollingBot  {
             person.setTelegramId(String.valueOf(update.getMessage().getChatId()));
             person.setApiKey(JSONParser.getJSONStringValue(json, "api_key"));
             person.setSecretKey(JSONParser.getJSONStringValue(json, "api_secret"));
-            sendTelegram(person, person.toString());
+            String mess = person
+                + "=/=/buy - Початок автоторгівлі==/sell - Продати і зупинити автоторгівлю=="
+                + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
+            Message message = update.getMessage();
+            message.setText(mess);
+            commandBox = new CommandBox(new SendMessButton(this), botListener);
+            commandBox.useCommand(CommandName.BUTTON.name()).execute(message);
         }
 
 

@@ -12,16 +12,14 @@ public class SellCommand extends CommandPattern {
   public SellCommand(SendMessService sendMessService,
       TelegramBotCommandListener botListener) {
     super(sendMessService, botListener);
+    this.sendMessService = new SendMessButton(sendMessService.getBot());
   }
 
   @Override
   public void execute(Message message) {
-    sendMessService.send(message.getChatId().toString(), botListener.sell(
-        String.valueOf(message.getChatId())));
-    String mess = "/buy - Початок автоторгівлі=="
+    String mess = botListener.sell(String.valueOf(message.getChatId()))
+        + "=/=/buy - Початок автоторгівлі=="
         + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
-    message.setText(mess);
-    CommandBox commandBox = new CommandBox(new SendMessButton(sendMessService.getBot()),botListener);
-    commandBox.useCommand("BUTTON").execute(message);
+    sendMessService.send(message.getChatId().toString(), mess);
   }
 }
