@@ -17,7 +17,7 @@ public class StopGameCommand extends CommandPattern {
 
     @Override
     public void execute(Message message) {
-        String mess = message.getText()
+        String mess = botListener.stopGame(String.valueOf(message.getChatId()))//message.getText()
             + "=/=/buy - Початок автоторгівлі==/sell - Продати зараз=="
             + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
         message.setText(mess);

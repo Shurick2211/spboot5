@@ -39,7 +39,6 @@ public class CheckCursServiceImpl implements CheckCursService{
 
 
   private void playForPerson(Person person, Coin coin){
-    newPerson(person, coin);
     if(coin.getTrend() == Trend.UP) {
       if (coin.isChangedTrend()) {
         log.info(coin.toString());
@@ -90,6 +89,7 @@ public class CheckCursServiceImpl implements CheckCursService{
     return prizePercent > person.getPlayAccount().getRangePrizeCursInPercent();
   }
 
+  @Deprecated
   private void newPerson(Person person, Coin coin) {
     if (!person.isPlay()) {
       log.info("New player - {}", person);
