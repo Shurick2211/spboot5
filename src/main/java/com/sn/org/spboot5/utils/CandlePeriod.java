@@ -1,6 +1,7 @@
 package com.sn.org.spboot5.utils;
 
 public enum CandlePeriod {
+  MINUTE("1m"),
   QUOTER("15m"),
   HOUR("1h"),
   DAY("1d");

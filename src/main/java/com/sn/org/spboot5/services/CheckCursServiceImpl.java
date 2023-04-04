@@ -21,7 +21,7 @@ public class CheckCursServiceImpl implements CheckCursService{
   private static final double MIN_KOEF = 1.002;
   private final BuySellService buySellService;
 
-  private final Candlestick [] candles = new Candlestick[2];
+  private final Candlestick [] candles = new Candlestick[3];
   //private LocalDateTime serverTime;
   @Autowired
   private Bot bot;
@@ -68,7 +68,9 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private void buy(Person person){
     getCandles();
-    if (candles[0].getTrend() == Trend.UP && candles[1].getTrend() == Trend.UP) {
+    if (candles[0].getTrend() == Trend.UP
+        && candles[1].getTrend() == Trend.UP
+        && candles[2].getTrend() == Trend.UP) {
       log.info("BTC Summ = {} ", buySellService.buyCoin(person));
       bot.sendTelegram(person, "Buying coins BTC = " + person.getPlayAccount().getSumm()
           + "  curs = " + person.getPlayAccount().getStartPeriodCurs());
@@ -84,7 +86,7 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private void savePoint(Person person, Coin coin) {
     getCandles();
-    if (candles[0].getTrend() == Trend.DOWN && candles[1].getTrend() == Trend.DOWN
+    if (candles[1].getTrend() == Trend.DOWN && candles[2].getTrend() == Trend.DOWN
         //person.getPlayAccount().getRangePrizeCursInPercent() < (coin.getLastCurs()/coin.getCurrentCurs() - 1)
         && person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
@@ -117,8 +119,9 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   private void getCandles(){
-    candles[0] = cursFromApi.getCandlesticks(CandlePeriod.QUOTER).get(4);
-    candles[1] = cursFromApi.getCandlesticks(CandlePeriod.HOUR).get(4);
+    candles[0] = cursFromApi.getCandlesticks(CandlePeriod.MINUTE).get(4);
+    candles[1] = cursFromApi.getCandlesticks(CandlePeriod.QUOTER).get(4);
+    candles[2] = cursFromApi.getCandlesticks(CandlePeriod.HOUR).get(4);
    // candles[2] = cursFromApi.getCandlesticks(CandlePeriod.DAY).get(4);
    // serverTime = cursFromApi.getServerTime();
   }
