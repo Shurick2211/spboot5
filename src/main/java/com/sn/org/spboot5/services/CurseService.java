@@ -31,9 +31,6 @@ public class CurseService {
 
   @Scheduled(fixedDelayString = "${freq.req.curs}")
   public void seenCurs(){
-    //log.info("Now {} \n {}",cursFromApi.getServerTime(), cursFromApi.getCandlesticks(CandlePeriod.QUOTER).get(4));
-    //log.info("\n {}", cursFromApi.getCandlesticks(CandlePeriod.HOUR).get(4));
-    //log.info("\n {}", cursFromApi.getCandlesticks(CandlePeriod.DAY).get(4));
     coin.setCurrentCurs(cursFromApi.getCurs());
     coin.setRate(changeTrendPercent(coin.getCurrentCurs(), coin.getLastCurs()));
     if (coin.getRate() > changeTrend / 100) {
