@@ -21,7 +21,7 @@ public class CheckCursServiceImpl implements CheckCursService{
   private static final double MIN_KOEF = 1.002;
   private final BuySellService buySellService;
 
-  private final Candlestick [] candles = new Candlestick[3];
+  private final Candlestick [] candles = new Candlestick[2];
   //private LocalDateTime serverTime;
   @Autowired
   private Bot bot;
@@ -56,13 +56,11 @@ public class CheckCursServiceImpl implements CheckCursService{
       }
     } else {
       if (coin.isChangedTrend()) {
+        savePoint(person, coin);
         log.info(coin.toString());
-        if (person.getPlayAccount().getAccState() == AccountState.COIN) {
-          if (isPrize(person, coin)) {
+        if (person.getPlayAccount().getAccState() == AccountState.COIN
+            && isPrize(person, coin)) {
             sell(person);
-          } else {
-            savePoint(person, coin);
-          }
         }
       }
     }
@@ -85,15 +83,16 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   private void savePoint(Person person, Coin coin) {
-    if (person.getPlayAccount().getRangePrizeCursInPercent() < (coin.getLastCurs()/coin.getCurrentCurs() - 1)
+    getCandles();
+    if (candles[0].getTrend() == Trend.DOWN && candles[1].getTrend() == Trend.DOWN
+        //person.getPlayAccount().getRangePrizeCursInPercent() < (coin.getLastCurs()/coin.getCurrentCurs() - 1)
         && person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
       bot.sendTelegram(person, "Save FIAT Summ = {}" + person.getStartSummFiat());
       person.setStartSummFiat(buySellService.sellCoin(person));
-     // person.setPlay(false);
+
     } else {
       log.info("WAIT...");
-      //bot.sendTelegram(person, "Wait...");
     }
   }
 
@@ -120,7 +119,7 @@ public class CheckCursServiceImpl implements CheckCursService{
   private void getCandles(){
     candles[0] = cursFromApi.getCandlesticks(CandlePeriod.QUOTER).get(4);
     candles[1] = cursFromApi.getCandlesticks(CandlePeriod.HOUR).get(4);
-    candles[2] = cursFromApi.getCandlesticks(CandlePeriod.DAY).get(4);
+   // candles[2] = cursFromApi.getCandlesticks(CandlePeriod.DAY).get(4);
    // serverTime = cursFromApi.getServerTime();
   }
 
