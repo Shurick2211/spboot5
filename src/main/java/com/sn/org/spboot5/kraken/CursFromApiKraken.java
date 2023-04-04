@@ -4,6 +4,7 @@ import com.sn.org.spboot5.kraken.dto.tickers.TickerKraken;
 import com.sn.org.spboot5.models.Candlestick;
 import com.sn.org.spboot5.services.CursFromApi;
 import com.sn.org.spboot5.utils.CandlePeriod;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.client.RestTemplate;
@@ -25,6 +26,11 @@ public class CursFromApiKraken implements CursFromApi {
 
     @Override
     public List<Candlestick> getCandlesticks(CandlePeriod period) {
+        return null;
+    }
+
+    @Override
+    public LocalDateTime getServerTime() {
         return null;
     }
 

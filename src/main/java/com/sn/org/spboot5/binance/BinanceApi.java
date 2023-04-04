@@ -4,14 +4,13 @@ package com.sn.org.spboot5.binance;
 import com.binance.connector.client.SpotClient;
 import com.binance.connector.client.impl.SpotClientImpl;
 import com.binance.connector.client.utils.JSONParser;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sn.org.spboot5.binance.dto.CandlestickDto;
 import com.sn.org.spboot5.models.Candlestick;
 import com.sn.org.spboot5.models.Person;
 import com.sn.org.spboot5.services.BuySellServiceApi;
 import com.sn.org.spboot5.utils.CandlePeriod;
-import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -39,20 +38,22 @@ public class BinanceApi implements BuySellServiceApi {
   public List<Candlestick> getCandlesticks(CandlePeriod period) {
     clearsParam();
     parameters.put("interval", period.getPeriod());
+    parameters.put("limit", 5);
     String jsonArray = clientForCurs.createMarket().klines(parameters);
     JSONArray array = new JSONArray(jsonArray);
-    ObjectMapper mapper = new ObjectMapper();
     List<Candlestick> candlesticks = new ArrayList<>();
     for (Object c:array){
-      try {
-        candlesticks.add(DtoToCandlestick.getCandlestick(
-            mapper.readValue(c.toString(), CandlestickDto.class),
-            parameters.get("symbol").toString(), period));
-      } catch (IOException e) {
-        log.error(e.getMessage());
-      }
+      JSONArray arrayC = new JSONArray(c.toString());
+      candlesticks.add(DtoToCandlestick.getCandlestick(arrayC,parameters.get("symbol").toString(),period));
     }
+
     return candlesticks;
+  }
+
+  @Override
+  public LocalDateTime getServerTime() {
+    return  LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(
+        clientForCurs.createMarket().time().substring(14,27))), ZoneId.of("UTC"));
   }
 
   @Override
