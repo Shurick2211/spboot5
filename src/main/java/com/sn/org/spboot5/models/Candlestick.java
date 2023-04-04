@@ -1,22 +1,25 @@
 package com.sn.org.spboot5.models;
 
+import com.sn.org.spboot5.utils.CandlePeriod;
+import com.sn.org.spboot5.utils.Trend;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
+@ToString
 public class Candlestick {
-  private long openTimeMills;
+  private String pair;
   private String openPrice;
   private String highPrice;
   private String lowPrice;
   private String closePrice;
-  private String volume;
-  private long closeTimeMills;
-  private String quoteAssetVolume;
-  private int numberOfTrades;
-  private String takerBuyBaseAssetVolume;
-  private String takerBuyQuoteAssetVolume;
-  private String unusedFieldIgnore;
+  private Trend trend;
+  private CandlePeriod period;
 
 }
