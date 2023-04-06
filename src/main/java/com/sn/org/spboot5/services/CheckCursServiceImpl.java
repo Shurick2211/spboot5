@@ -7,7 +7,6 @@ import com.sn.org.spboot5.telegram_bot.Bot;
 import com.sn.org.spboot5.utils.AccountState;
 import com.sn.org.spboot5.utils.CandlePeriod;
 import com.sn.org.spboot5.utils.Trend;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
@@ -48,18 +47,17 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private void playForPerson(Person person, Coin coin){
     if(coin.getTrend() == Trend.UP) {
-      if (coin.isChangedTrend()) {
+      if (coin.isChangedTrend() && person.getPlayAccount().getAccState() == AccountState.FIAT) {
         log.info(coin.toString());
-        if (isNoBad(person, coin) && person.getPlayAccount().getAccState() == AccountState.FIAT){
+        if (isBuy(person, coin) ){
           buy(person);
         }
       }
     } else {
-      if (coin.isChangedTrend()) {
+      if (coin.isChangedTrend() && person.getPlayAccount().getAccState() == AccountState.COIN) {
         savePoint(person, coin);
         log.info(coin.toString());
-        if (person.getPlayAccount().getAccState() == AccountState.COIN
-            && isPrize(person, coin)) {
+        if (isPrize(person, coin)) {
             sell(person);
         }
       }
@@ -67,14 +65,9 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   private void buy(Person person){
-    getCandles();
-    if (candles[0].getTrend() == Trend.UP
-        && candles[1].getTrend() == Trend.UP
-        && candles[2].getTrend() == Trend.UP) {
       log.info("BTC Summ = {} ", buySellService.buyCoin(person));
       bot.sendTelegram(person, "Buying coins BTC = " + person.getPlayAccount().getSumm()
           + "  curs = " + person.getPlayAccount().getStartPeriodCurs());
-    }
   }
 
   private void sell(Person person){
@@ -86,23 +79,25 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private void savePoint(Person person, Coin coin) {
     getCandles();
-    if (candles[1].getTrend() == Trend.DOWN && candles[2].getTrend() == Trend.DOWN
+    if (candles[0].getTrend() == Trend.DOWN && candles[1].getTrend() == Trend.DOWN
         //person.getPlayAccount().getRangePrizeCursInPercent() < (coin.getLastCurs()/coin.getCurrentCurs() - 1)
         && person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
-      bot.sendTelegram(person, "Save FIAT Summ = {}" + person.getStartSummFiat());
+      bot.sendTelegram(person, "Save FIAT Summ = " + person.getStartSummFiat());
       person.setStartSummFiat(buySellService.sellCoin(person));
-
     } else {
       log.info("WAIT...");
     }
   }
 
-  private boolean isNoBad(Person person, Coin coin) {
-    double trendDown = person.getPlayAccount().getStartPeriodCurs()
-        * (1 - changeTrend)/100;
-    double trendUP = person.getPlayAccount().getStartPeriodCurs() * (1 + changeTrend)/100;
-    return trendDown > coin.getCurrentCurs() || trendUP < coin.getCurrentCurs();
+  private boolean isBuy(Person person, Coin coin) {
+    getCandles();
+    //double trendDown = person.getPlayAccount().getStartPeriodCurs()
+    //    * (1 - changeTrend)/100;
+    //double trendUP = person.getPlayAccount().getStartPeriodCurs() * (1 + changeTrend)/100;
+    return //trendDown > coin.getCurrentCurs() //|| trendUP < coin.getCurrentCurs())
+         candles[0].getTrend() == Trend.UP
+        && candles[1].getTrend() == Trend.UP;
   }
 
   private boolean isPrize(Person person, Coin coin) {
