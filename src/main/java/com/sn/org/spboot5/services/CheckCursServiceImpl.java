@@ -96,8 +96,10 @@ public class CheckCursServiceImpl implements CheckCursService{
     //    * (1 - changeTrend)/100;
     //double trendUP = person.getPlayAccount().getStartPeriodCurs() * (1 + changeTrend)/100;
     return //trendDown > coin.getCurrentCurs() //|| trendUP < coin.getCurrentCurs())
-         candles[0].getTrend() == Trend.UP
-        && candles[1].getTrend() == Trend.UP;
+        candles[1].getTrend() == Trend.UP
+        && candles[0].getTrend() == Trend.UP
+        && cursFromApi.getServerTime().plusMinutes(5).isBefore(candles[1].getEndTime())
+        && coin.getCurrentCurs() < (candles[1].getHighPrice() + candles[1].getLowPrice())/2;
   }
 
   private boolean isPrize(Person person, Coin coin) {
