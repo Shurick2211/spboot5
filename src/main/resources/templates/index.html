@@ -14,6 +14,9 @@
 <input type="text" id="key">
 <h3 >Api secret!</h3>
 <input type="text" id="secret">
+<h3 >Сумма для гри в USDT:</h3>
+<input type="number" id="summ">
+
 <p id="pteg">Hello user! </p>
 <button id="ok" onclick="clickOK()">ОК!</button>
 <script>
@@ -31,12 +34,15 @@
   class Resp{
     api_key;
     api_secret;
+    summ;
   }
 
   let key = document.getElementById("key");
   let secret = document.getElementById("secret");
+  let summ = document.getElementById("summ");
   let isKey = false;
   let isSecret = false;
+  let isSumm = false;
 
   function keyIsNotEmpty(e){
     if (e.target.value !== null &&
@@ -50,13 +56,19 @@
             e.target.value !=="") && isKey) isSecret = true;
     clickOK();
   }
+  function summIsNotEmpty(e){
+    if ((e.target.value !== null &&
+        e.target.value !=="") && isKey && isSecret) isSumm = true;
+    clickOK();
+  }
 
   function clickOK() {
-    if (isSecret && isKey) {
+    if (isSecret && isKey && isSumm) {
       const disp = document.getElementById("pteg");
       const resp = new Resp();
       resp.api_key = key.value.toString();
       resp.api_secret = secret.value.toString();
+      resp.summ = summ.value.toString();
       response = JSON.stringify(resp);
       disp.innerText = response;
       tg.MainButton.show();
@@ -70,6 +82,7 @@
 
   key.addEventListener("focusout", keyIsNotEmpty);
   secret.addEventListener("focusout", secretIsNotEmpty);
+  summ.addEventListener("focusout", summIsNotEmpty);
 
 </script>
 </body>

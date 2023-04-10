@@ -109,11 +109,10 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   @Override
   public String registration(Person person) {
     //Temporary person
-    person = new Person(person.getTelegramId(), summ,
-        new PlayAccount(summ, 0, AccountState.FIAT,
+    person = new Person(person.getTelegramId(), person.getStartSummFiat(),
+        new PlayAccount(person.getStartSummFiat(), 0, AccountState.FIAT,
             rangeCursForBuy, buySellServiceApi.getServerTime()),
           apiKey,  apiSecret);
-
     registrationPersons.add(person);
     return "Registration!";
   }

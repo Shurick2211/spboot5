@@ -66,8 +66,12 @@ public class Bot extends TelegramLongPollingBot  {
         person.setTelegramId(String.valueOf(update.getMessage().getChatId()));
         person.setApiKey(JSONParser.getJSONStringValue(json, "api_key"));
         person.setSecretKey(JSONParser.getJSONStringValue(json, "api_secret"));
+        person.setStartSummFiat(Double.parseDouble(JSONParser.getJSONStringValue(json, "summ")));
         botListener.registration(person);
-        String mess = person
+        log.info("Registrate new {}",person);
+        String user = "New User: \n" + update.getMessage().getFrom().getFirstName()
+            + ", id: " + update.getMessage().getChatId();
+        String mess = user
             + "=/=/buy - Початок автоторгівлі (Купити BTC)==/sell - Продати BTC зараз=="
             + "/info - Інформація з кошелька!==/curs - Отримати поточний курс!";
         Message message = update.getMessage();
