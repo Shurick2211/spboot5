@@ -1,6 +1,7 @@
 package com.sn.org.spboot5.models;
 
 import com.sn.org.spboot5.utils.AccountState;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,6 @@ public class PlayAccount {
   private double startPeriodCurs;
   private AccountState accState;
   private double rangePrizeCursInPercent;
+  private LocalDateTime lastSellTime;
 
 }

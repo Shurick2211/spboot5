@@ -72,6 +72,7 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private void sell(Person person){
     log.info("Winn FIAT Summ = {} ", buySellService.sellCoin(person));
+    person.getPlayAccount().setLastSellTime(cursFromApi.getServerTime());
     stopGameForMax(person);
     bot.sendTelegram(person,"Sell coins BTC = " + person.getPlayAccount().getSumm()
         + "  curs = " + person.getPlayAccount().getStartPeriodCurs());
@@ -80,7 +81,6 @@ public class CheckCursServiceImpl implements CheckCursService{
   private void savePoint(Person person, Coin coin) {
     getCandles();
     if (candles[0].getTrend() == Trend.DOWN && candles[1].getTrend() == Trend.DOWN
-        //person.getPlayAccount().getRangePrizeCursInPercent() < (coin.getLastCurs()/coin.getCurrentCurs() - 1)
         && person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
       bot.sendTelegram(person, "Save FIAT Summ = " + person.getStartSummFiat());
@@ -92,14 +92,14 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private boolean isBuy(Person person, Coin coin) {
     getCandles();
-    //double trendDown = person.getPlayAccount().getStartPeriodCurs()
-    //    * (1 - changeTrend)/100;
-    //double trendUP = person.getPlayAccount().getStartPeriodCurs() * (1 + changeTrend)/100;
-    return //trendDown > coin.getCurrentCurs() //|| trendUP < coin.getCurrentCurs())
-        candles[1].getTrend() == Trend.UP
-        && candles[0].getTrend() == Trend.UP
-        && cursFromApi.getServerTime().plusMinutes(5).isBefore(candles[1].getEndTime())
-        && coin.getCurrentCurs() < (candles[1].getHighPrice() + candles[1].getLowPrice())/2;
+    log.info("15m up= {}, 1m up= {}, last candle sell ={}",
+        candles[1].getTrend() == Trend.UP,
+        candles[0].getTrend() == Trend.UP,
+        person.getPlayAccount().getLastSellTime().isBefore(candles[0].getStartTime()));
+    return person.getPlayAccount().getLastSellTime().isBefore(candles[0].getStartTime())
+        && candles[1].getTrend() == Trend.UP
+        && candles[0].getTrend() == Trend.UP;
+
   }
 
   private boolean isPrize(Person person, Coin coin) {

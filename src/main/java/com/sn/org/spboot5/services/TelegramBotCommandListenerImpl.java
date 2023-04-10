@@ -110,7 +110,8 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   public String registration(Person person) {
     //Temporary person
     person = new Person(person.getTelegramId(), summ,
-        new PlayAccount(summ, 0, AccountState.FIAT, rangeCursForBuy),
+        new PlayAccount(summ, 0, AccountState.FIAT,
+            rangeCursForBuy, buySellServiceApi.getServerTime()),
           apiKey,  apiSecret);
 
     registrationPersons.add(person);
