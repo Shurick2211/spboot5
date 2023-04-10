@@ -122,6 +122,7 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
     try {
       Person person = CheckCursServiceImpl.getPersonByTelegramId(id);
       registrationPersons.remove(person);
+      CheckCursServiceImpl.stopGame(person);
     }catch (NoSuchElementException e) {
      log.warn(e.getMessage());
     }
