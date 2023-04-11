@@ -14,10 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class TelegramBotCommandListenerImpl implements TelegramBotCommandListener {
-
-  //Temporary test data start<
-  @Value("${start.summ.fiat}")
-  private double summ;
   @Value("${range.prize.curs.percent}")
   private double rangeCursForBuy;
   @Value("${api.key}")
@@ -26,8 +22,6 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
   private String apiSecret;
   @Autowired
   private BuySellService buySellService;
-  // >end Temporary test data
-
 
   @Autowired
   private BuySellServiceApi buySellServiceApi;
