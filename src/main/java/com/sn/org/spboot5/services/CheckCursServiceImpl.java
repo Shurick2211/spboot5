@@ -110,6 +110,7 @@ public class CheckCursServiceImpl implements CheckCursService{
     if (person.getPlayAccount().getAccState() == AccountState.FIAT
         && person.getStartSummFiat() * (1 + stopPercent / 100) < person.getPlayAccount().getSumm()) {
       person.setStartSummFiat(person.getPlayAccount().getSumm());
+      log.info("Prize was save, start summ = {}", person.getStartSummFiat());
     }
   }
 
