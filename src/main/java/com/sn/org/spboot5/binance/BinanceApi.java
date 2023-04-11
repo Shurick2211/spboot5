@@ -38,7 +38,7 @@ public class BinanceApi implements BuySellServiceApi {
   public List<Candlestick> getCandlesticks(CandlePeriod period) {
     clearsParam();
     parameters.put("interval", period.getPeriod());
-    parameters.put("limit", 5);
+    parameters.put("limit", 1);
     String jsonArray = clientForCurs.createMarket().klines(parameters);
     JSONArray array = new JSONArray(jsonArray);
     List<Candlestick> candlesticks = new ArrayList<>();
@@ -46,7 +46,6 @@ public class BinanceApi implements BuySellServiceApi {
       JSONArray arrayC = new JSONArray(c.toString());
       candlesticks.add(DtoToCandlestick.getCandlestick(arrayC,parameters.get("symbol").toString(),period));
     }
-
     return candlesticks;
   }
 

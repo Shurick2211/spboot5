@@ -42,7 +42,6 @@ public class TelegramBotCommandListenerImpl implements TelegramBotCommandListene
           .filter(p -> p.getTelegramId().equals(id)).findFirst().orElseThrow();
       CheckCursServiceImpl.subscribeToCheck(person);
       if (person.getPlayAccount().getAccState() == AccountState.FIAT) {
-        //buySellService.buyCoin(person);
         person.getPlayAccount().setStartPeriodCurs(buySellServiceApi.getCurs());
         return  "New player - " + person.getTelegramId() +
             "\nStart game " + person.getPlayAccount().getAccState().name()

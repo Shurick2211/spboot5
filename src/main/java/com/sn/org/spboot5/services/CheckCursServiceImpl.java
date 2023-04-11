@@ -20,8 +20,8 @@ public class CheckCursServiceImpl implements CheckCursService{
   private static final double MIN_KOEF = 1.002;
   private final BuySellService buySellService;
 
-  private final Candlestick [] candles = new Candlestick[3];
-  //private LocalDateTime serverTime;
+  private final Candlestick [] candles = new Candlestick[2];
+
   @Autowired
   private Bot bot;
   @Autowired
@@ -41,21 +41,22 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   @Override
   public void checkCurs(Coin coin) {
+    getCandles();
     persons.forEach(person -> playForPerson(person, coin));
   }
 
 
   private void playForPerson(Person person, Coin coin){
+    savePoint(person, coin);
     if(coin.getTrend() == Trend.UP) {
       if (coin.isChangedTrend() && person.getPlayAccount().getAccState() == AccountState.FIAT) {
         log.info(coin.toString());
-        if (isBuy(person, coin) ){
+        if (isBuy(person) ){
           buy(person);
         }
       }
     } else {
       if (coin.isChangedTrend() && person.getPlayAccount().getAccState() == AccountState.COIN) {
-        savePoint(person, coin);
         log.info(coin.toString());
         if (isPrize(person, coin)) {
             sell(person);
@@ -79,19 +80,16 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   private void savePoint(Person person, Coin coin) {
-    getCandles();
     if (candles[0].getTrend() == Trend.DOWN && candles[1].getTrend() == Trend.DOWN
+        && person.getPlayAccount().getAccState() == AccountState.COIN
         && person.getStartSummFiat() * MIN_KOEF < person.getPlayAccount().getSumm() * coin.getCurrentCurs()) {
       log.info("Save FIAT Summ = {}", person.getStartSummFiat());
       bot.sendTelegram(person, "Save FIAT Summ = " + person.getStartSummFiat());
       person.setStartSummFiat(buySellService.sellCoin(person));
-    } else {
-      log.info("WAIT...");
     }
   }
 
-  private boolean isBuy(Person person, Coin coin) {
-    getCandles();
+  private boolean isBuy(Person person) {
     log.info("15m up= {}, 1m up= {}, last candle sell ={}",
         candles[1].getTrend() == Trend.UP,
         candles[0].getTrend() == Trend.UP,
@@ -116,11 +114,8 @@ public class CheckCursServiceImpl implements CheckCursService{
   }
 
   private void getCandles(){
-    candles[0] = cursFromApi.getCandlesticks(CandlePeriod.MINUTE).get(4);
-    candles[1] = cursFromApi.getCandlesticks(CandlePeriod.QUOTER).get(4);
-    candles[2] = cursFromApi.getCandlesticks(CandlePeriod.HOUR).get(4);
-   // candles[2] = cursFromApi.getCandlesticks(CandlePeriod.DAY).get(4);
-   // serverTime = cursFromApi.getServerTime();
+    candles[0] = cursFromApi.getCandlesticks(CandlePeriod.MINUTE).get(0);
+    candles[1] = cursFromApi.getCandlesticks(CandlePeriod.QUOTER).get(0);
   }
 
   public static boolean stopGame(Person person) {
