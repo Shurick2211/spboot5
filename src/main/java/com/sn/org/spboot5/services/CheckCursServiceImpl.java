@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class CheckCursServiceImpl implements CheckCursService{
-  private static final double MIN_KOEF = 1.002;
+  private static final double MIN_KOEF = 1.0025;
   private final BuySellService buySellService;
 
   private final Candlestick [] candles = new Candlestick[2];
@@ -29,7 +29,7 @@ public class CheckCursServiceImpl implements CheckCursService{
 
   private final static Set<Person> persons = new HashSet<>();
 
-  @Value("${stop.game.percent}")
+  @Value("${save.game.percent}")
   private double stopPercent;
 
   @Value("${trend.change.limit.persent}")
@@ -74,7 +74,7 @@ public class CheckCursServiceImpl implements CheckCursService{
   private void sell(Person person){
     log.info("Winn FIAT Summ = {} ", buySellService.sellCoin(person));
     person.getPlayAccount().setLastSellTime(cursFromApi.getServerTime());
-    stopGameForMax(person);
+    savePointPrize(person);
     bot.sendTelegram(person,"Sell coins BTC = " + person.getPlayAccount().getSumm()
         + "  curs = " + person.getPlayAccount().getStartPeriodCurs());
   }
@@ -106,10 +106,10 @@ public class CheckCursServiceImpl implements CheckCursService{
     return prizePercent > person.getPlayAccount().getRangePrizeCursInPercent();
   }
 
-  private void stopGameForMax(Person person) {
+  private void savePointPrize(Person person) {
     if (person.getPlayAccount().getAccState() == AccountState.FIAT
         && person.getStartSummFiat() * (1 + stopPercent / 100) < person.getPlayAccount().getSumm()) {
-      stopGame(person);
+      person.setStartSummFiat(person.getPlayAccount().getSumm());
     }
   }
 
